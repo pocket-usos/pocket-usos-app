@@ -5,7 +5,11 @@ import {RootState} from '@store/store';
 import AuthenticationNavigator from './Authentication/AuthenticationNavigator';
 import MainNavigator from '@navigation/Main/MainNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {authenticate} from '@modules/Authentication/state.ts';
+import {
+  authenticate,
+  stopAuthentication,
+} from '@modules/Authentication/state.ts';
+import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
 
 const RootNavigation: React.FC = () => {
   const {isAuthenticated} = useSelector(
@@ -19,6 +23,8 @@ const RootNavigation: React.FC = () => {
 
       if (sessionId !== null) {
         dispatch(authenticate());
+      } else {
+        dispatch(stopAuthentication());
       }
     };
 
@@ -27,7 +33,9 @@ const RootNavigation: React.FC = () => {
 
   return (
     <NavigationContainer>
-      {!isAuthenticated ? <AuthenticationNavigator /> : <MainNavigator />}
+      <ScreenContainer isRoot={true}>
+        {!isAuthenticated ? <AuthenticationNavigator /> : <MainNavigator />}
+      </ScreenContainer>
     </NavigationContainer>
   );
 };

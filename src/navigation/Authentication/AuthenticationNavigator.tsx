@@ -9,6 +9,7 @@ const AuthenticationStackScreen: React.FC = () => {
     <AuthStack.Navigator
       screenOptions={{
         headerShown: false,
+        animation: 'none',
       }}>
       <AuthStack.Screen {...routes.authentication.chooseUniversity} />
     </AuthStack.Navigator>

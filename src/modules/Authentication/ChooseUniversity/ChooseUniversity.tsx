@@ -104,7 +104,7 @@ const ChooseUniversityContainer: React.FC = () => {
         );
       }
     },
-    [dispatch, authenticate],
+    [dispatch, authenticate, t],
   );
 
   useEffect(() => {

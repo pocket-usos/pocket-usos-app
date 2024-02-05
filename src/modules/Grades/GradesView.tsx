@@ -4,7 +4,7 @@ import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 
-const MainView: React.FC = () => {
+const GradesView: React.FC = () => {
   const theme = useAppTheme();
   const {t} = useTranslation();
 
@@ -13,10 +13,10 @@ const MainView: React.FC = () => {
       <Text
         variant="headlineMedium"
         style={{color: theme.colors.neutral.black}}>
-        {t('Home')}
+        {t('Grades')}
       </Text>
     </ScreenContainer>
   );
 };
 
-export default MainView;
+export default GradesView;
