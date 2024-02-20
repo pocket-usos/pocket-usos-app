@@ -9,7 +9,7 @@ export type Props = {
 const Loader: React.FC<Props> = props => (
   <AnimatedLoader
     visible={props.isLoading}
-    overlayColor="rgba(255,255,255,0.75)"
+    overlayColor="rgba(255,255,255,1)"
     source={require('../../../assets/json/loader.json')}
     animationStyle={styles.animation}
     speed={1}

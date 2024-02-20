@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
   mainMenu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 28,
+    height: 48,
+    marginBottom: 24,
   },
   mainMenuItem: {
     width: '25%',
@@ -28,6 +29,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: theme.colors.primary,
+  },
+  mainMenuItemIcon: {
+    width: 28,
+    height: 28,
   },
 });
 

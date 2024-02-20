@@ -1,20 +1,22 @@
 import React from 'react';
-import {Text} from 'react-native-paper';
 import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
-import {useAppTheme} from '@styles/theme';
-import {useTranslation} from 'react-i18next';
+import Profile from '@modules/Users/Model/Profile.ts';
+import ProfilePreview from '@modules/Home/ProfilePreview/ProfilePreview.tsx';
+import UpcomingClasses from '@modules/Home/UpcomingClasses/UpcomingClasses.tsx';
+import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
+import QuickActions from '@modules/Home/QuickActions/QuickActions.tsx';
 
-const HomeView: React.FC = () => {
-  const theme = useAppTheme();
-  const {t} = useTranslation();
+interface Props {
+  profile?: Profile;
+  schedule?: CalendarItem[];
+}
 
+const HomeView: React.FC<Props> = ({profile, schedule}) => {
   return (
     <ScreenContainer>
-      <Text
-        variant="headlineMedium"
-        style={{color: theme.colors.neutral.black}}>
-        {t('Home')}
-      </Text>
+      {profile ? <ProfilePreview profile={profile} /> : null}
+      <UpcomingClasses schedule={schedule} />
+      <QuickActions />
     </ScreenContainer>
   );
 };

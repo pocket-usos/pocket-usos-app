@@ -1,15 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import LoadableScreenView from '@components/LoadableScreenView/LoadableScreenView.tsx';
 import HomeView from '@modules/Home/HomeView';
-import {MainStackParamList} from '@navigation/Main/MainNavigator.tsx';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useGetProfileQuery} from '@modules/Users/api.ts';
+import {useGetMyScheduleQuery} from '@modules/Schedule/api';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type NavigationProps = NativeStackScreenProps<MainStackParamList, 'Home'>;
+const HomeContainer: React.FC = () => {
+  const [today] = useState(
+    moment({hour: 0, minute: 0, second: 0}).tz('Europe/Warsaw').toDate(),
+  );
+  const {data: profile, isFetching: isFetchingProfile} = useGetProfileQuery();
+  const {data: schedule, isFetching: isFetchingSchedule} =
+    useGetMyScheduleQuery({
+      start: today,
+      days: 7,
+    });
 
-const HomeContainer: React.FC<NavigationProps> = ({navigation}) => {
   return (
-    <LoadableScreenView isLoading={false}>
-      <HomeView />
+    <LoadableScreenView isLoading={isFetchingProfile || isFetchingSchedule}>
+      <HomeView profile={profile} schedule={schedule} />
     </LoadableScreenView>
   );
 };

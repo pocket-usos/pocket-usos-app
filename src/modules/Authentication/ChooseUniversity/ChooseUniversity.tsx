@@ -6,7 +6,7 @@ import {
   useInitialiseAuthenticationSessionMutation,
 } from '@modules/Authentication/api';
 import AuthenticationSessionInitialisationResponse from '../Response/AuthenticationSessionInitialisationResponse';
-import Response from '@modules/Authentication/Response/Response.ts';
+import Response from '@store/Response';
 import {useDispatch, useSelector} from 'react-redux';
 import {Linking} from 'react-native';
 import {RootState} from '@store/store';

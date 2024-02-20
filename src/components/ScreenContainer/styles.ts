@@ -5,12 +5,13 @@ const styles = StyleSheet.create({
   rootContainer: {
     height: '100%',
     backgroundColor: theme.colors.background,
-    paddingTop: 90,
-    padding: 36,
+    paddingTop: 72,
   },
   container: {
     height: '100%',
     backgroundColor: theme.colors.background,
+    paddingTop: 0,
+    padding: 36,
   },
 });
 

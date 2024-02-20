@@ -25,7 +25,7 @@ const MainMenuItem: React.FC<Props> = ({
         </View>
       ) : (
         <View>
-          <Image source={iconSource} />
+          <Image source={iconSource} style={styles.mainMenuItemIcon} />
         </View>
       )}
     </TouchableOpacity>

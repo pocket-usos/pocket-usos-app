@@ -3,11 +3,15 @@ import {DefaultTheme, useTheme} from 'react-native-paper';
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
+      additional: {
+        red: string;
+      };
       neutral: {
         black: string;
         white: string;
         300: string;
         500: string;
+        700: string;
       };
       semantic: {
         success: string;
@@ -47,11 +51,17 @@ const theme = {
   },
   colors: {
     ...DefaultTheme.colors,
-    primary: '#7F84E8',
+    primary: '#AD94F4',
+    secondary: '#FFAD72',
+    tertiary: '#FFCF6C',
+    additional: {
+      red: '#FF7878',
+    },
     neutral: {
       black: '#383838',
       300: '#EEEEEE',
       500: '#808080',
+      700: '#737373',
       white: '#FFFFFF',
     },
     semantic: {
