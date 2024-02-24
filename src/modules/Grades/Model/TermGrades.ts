@@ -7,10 +7,10 @@ interface TermGrades {
 interface TermCourse {
   id: string;
   name: string;
-  units: TermCourseUnit;
+  units: TermCourseUnit[];
 }
 
-interface TermCourseUnit {
+export interface TermCourseUnit {
   id: string;
   type: ClassType;
   grades: SessionGrade[];
