@@ -1,9 +1,15 @@
 import React, {useState} from 'react';
 import {ActivityIndicator, Text} from 'react-native-paper';
-import {useAppTheme} from '@styles/theme';
+import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
 import {default as IonIcon} from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
@@ -89,7 +95,7 @@ const ScheduleView: React.FC<Props> = ({
             toHour={22}
             hideNowLine={!isToday()}
             scrollViewProps={{horizontal: false}}
-            width={318}
+            width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{
               container: styles.timetableContainer,
               lines: styles.timetableLines,

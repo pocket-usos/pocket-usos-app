@@ -1,4 +1,5 @@
 import {DefaultTheme, useTheme} from 'react-native-paper';
+import {Platform} from 'react-native';
 
 declare global {
   namespace ReactNativePaper {
@@ -24,6 +25,8 @@ declare global {
     interface Theme {}
   }
 }
+
+export const SafeAreaPadding = Platform.OS === 'ios' ? 36 : 24;
 
 const theme = {
   ...DefaultTheme,
@@ -56,16 +59,19 @@ const theme = {
     tertiary: '#FFCF6C',
     additional: {
       red: '#FF7878',
+      green: '#7EDA6E',
+      yellow: '#F3BE58',
     },
     neutral: {
       black: '#383838',
       300: '#EEEEEE',
-      500: '#808080',
+      500: '#B8B8B8',
+      600: '#808080',
       700: '#737373',
       white: '#FFFFFF',
     },
     semantic: {
-      success: '#45A560',
+      success: '#7EDA6E',
       warning: '#D1843D',
       error: '#DD4E4E',
       info: '#4D91D0',

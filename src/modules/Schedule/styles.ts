@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import theme from '@styles/theme';
+import theme, {SafeAreaPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   headerContainer: {
-    paddingHorizontal: 36,
+    paddingHorizontal: SafeAreaPadding,
   },
   header: {
     flexDirection: 'row',
@@ -32,22 +32,21 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   calendarModal: {
-    marginHorizontal: 36,
+    marginHorizontal: SafeAreaPadding,
   },
   calendar: {
     borderRadius: 32,
     paddingVertical: 16,
   },
   timetableView: {
-    paddingHorizontal: 36,
+    paddingHorizontal: SafeAreaPadding,
     marginTop: 36,
   },
   timetableContainer: {},
   timetableLines: {
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
     borderTopColor: theme.colors.neutral['300'],
     borderBottomColor: theme.colors.neutral['300'],
+    borderColor: 'transparent',
   },
   timetableItem: {
     backgroundColor: theme.colors.primary,
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.black,
   },
   classTypeTextForPastItem: {
-    color: theme.colors.neutral['500'],
+    color: theme.colors.neutral['600'],
   },
   loader: {
     justifyContent: 'center',
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
     marginTop: -144,
   },
   noResultsContainer: {
-    paddingHorizontal: 36,
+    paddingHorizontal: SafeAreaPadding,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',

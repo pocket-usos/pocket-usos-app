@@ -20,7 +20,7 @@ const SearchInput: React.FC<Props> = ({value, placeholder, onInput, style}) => {
         value={value}
         onChangeText={onInput}
         placeholder={placeholder}
-        placeholderTextColor={theme.colors.neutral[500]}
+        placeholderTextColor={theme.colors.neutral[600]}
         style={styles.input}
       />
       <Icon

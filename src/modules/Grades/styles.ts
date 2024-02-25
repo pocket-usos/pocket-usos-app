@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import theme from '@styles/theme';
+import theme, {SafeAreaPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: theme.colors.neutral.black,
-    paddingHorizontal: 36,
-    marginBottom: 36,
+    paddingHorizontal: SafeAreaPadding,
+    marginBottom: SafeAreaPadding,
   },
   terms: {
-    paddingLeft: 36,
+    paddingHorizontal: SafeAreaPadding,
   },
   term: {
     marginRight: 12,
@@ -28,24 +28,33 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
   },
   gradesContainer: {
-    paddingHorizontal: 36,
-    marginTop: 12,
+    paddingHorizontal: SafeAreaPadding,
+    marginTop: 24,
   },
-  courseContainer: {},
-  courseName: {
-    marginVertical: 12,
-    fontSize: 14,
+  gradesContainerPlaceholder: {
+    paddingHorizontal: SafeAreaPadding,
+    marginTop: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    paddingBottom: 184,
+  },
+  noGradesPlaceholder: {
+    fontSize: 18,
+    color: theme.colors.neutral['700'],
     fontWeight: '500',
+    textAlign: 'center',
   },
-  unitType: {
+  courseName: {
     fontWeight: '600',
-    maxWidth: '70%',
+    flex: 8,
     fontSize: 12,
     lineHeight: 15,
   },
   unitGrade: {
     paddingHorizontal: 12,
-    paddingVertical: 16,
+    paddingVertical: 12,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: theme.colors.primary,
@@ -54,6 +63,7 @@ const styles = StyleSheet.create({
   unitGradeHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 16,
   },
   lastGradeText: {
     fontWeight: '600',
@@ -61,8 +71,6 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
   },
   lastGrade: {
-    marginLeft: 'auto',
-    marginRight: 24,
     width: 32,
     height: 32,
     borderRadius: 32,
@@ -96,6 +104,10 @@ const styles = StyleSheet.create({
   },
   gradeDetailsValue: {
     flex: 1,
+  },
+  gradesDistributionLabel: {
+    fontWeight: '600',
+    marginTop: 16,
   },
 });
 
