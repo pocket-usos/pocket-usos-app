@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   },
   quickAction: {
     borderRadius: 32,
+    borderBottomLeftRadius: 0,
     padding: 24,
     flex: 1,
     flexBasis: '47%',

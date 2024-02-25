@@ -6,6 +6,7 @@ import {ScrollView, View} from 'react-native';
 import styles from './styles.ts';
 import Term from './Model/Term.ts';
 import TermGrades from '@modules/Grades/Model/TermGrades.ts';
+import UnitGrade from './UnitGrade.tsx';
 
 interface Props {
   terms: Term[];
@@ -22,6 +23,16 @@ const GradesView: React.FC<Props> = ({
 }) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
+
+  const availableCourseGrades = grades?.courses.filter(
+    courseGrades =>
+      courseGrades.units.find(unit => unit.grades.length > 0) !== undefined,
+  );
+
+  const nonAvailableCourseGrades = grades?.courses.filter(
+    courseGrades =>
+      courseGrades.units.find(unit => unit.grades.length > 0) === undefined,
+  );
 
   return (
     <View style={styles.container}>
@@ -49,9 +60,31 @@ const GradesView: React.FC<Props> = ({
           ))}
         </ScrollView>
       </View>
-      <View style={styles.gradesContainer}>
-        <Text>{grades?.term}</Text>
-      </View>
+      {availableCourseGrades?.length === 0 &&
+      nonAvailableCourseGrades?.length === 0 ? (
+        <View style={styles.gradesContainerPlaceholder}>
+          <Text style={styles.noGradesPlaceholder}>
+            {t("You don't have any grades on this term") + '.'}
+          </Text>
+        </View>
+      ) : (
+        <ScrollView horizontal={false} style={styles.gradesContainer}>
+          {availableCourseGrades?.map(course => (
+            <View key={course.id}>
+              {course.units.map(unit => (
+                <UnitGrade key={unit.id} unit={unit} courseName={course.name} />
+              ))}
+            </View>
+          ))}
+          {nonAvailableCourseGrades?.map(course => (
+            <View key={course.id}>
+              {course.units.map(unit => (
+                <UnitGrade key={unit.id} unit={unit} courseName={course.name} />
+              ))}
+            </View>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };

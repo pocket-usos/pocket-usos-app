@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     backgroundColor: theme.colors.primary,
     borderRadius: 32,
+    borderBottomLeftRadius: 0,
   },
   upcommingClassTitle: {
     color: theme.colors.neutral.white,

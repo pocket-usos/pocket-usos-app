@@ -1,9 +1,15 @@
 import React, {useState} from 'react';
 import {ActivityIndicator, Text} from 'react-native-paper';
-import {useAppTheme} from '@styles/theme';
+import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
-import {Image, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
 import {default as IonIcon} from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
@@ -48,6 +54,12 @@ const ScheduleView: React.FC<Props> = ({
   const toStartLetterUppercase = (str: string) =>
     str[0].toUpperCase() + str.slice(1);
 
+  const getScheduleMinHour = (scheduleForDay: CalendarItem[]) => {
+    const startHours = scheduleForDay?.map(item => moment(item.start).hour());
+
+    return Math.min(...startHours);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -85,11 +97,11 @@ const ScheduleView: React.FC<Props> = ({
       {schedule && (schedule?.length ?? 0) > 0 && !isFetching ? (
         <ScrollView style={styles.timetableView} horizontal={false}>
           <Timetable
-            fromHour={8}
+            fromHour={getScheduleMinHour(schedule)}
             toHour={22}
             hideNowLine={!isToday()}
             scrollViewProps={{horizontal: false}}
-            width={318}
+            width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{
               container: styles.timetableContainer,
               lines: styles.timetableLines,

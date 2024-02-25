@@ -4,7 +4,6 @@ import HomeView from '@modules/Home/HomeView';
 import {useGetProfileQuery} from '@modules/Users/api.ts';
 import {useGetMyScheduleQuery} from '@modules/Schedule/api';
 import moment from 'moment';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeContainer: React.FC = () => {
   const [today] = useState(

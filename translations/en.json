@@ -18,5 +18,13 @@
   "See all": "See all",
   "Today": "Today",
   "You don't have any classes on this day": "You don't have any classes on this day",
-  "Your grades": "Your grades"
+  "Your grades": "Your grades",
+  "Passes": "Passes",
+  "Counts into average": "Counts into average",
+  "Given at": "Given at",
+  "Given by": "Given by",
+  "Yes": "Yes",
+  "No": "No",
+  "Grades distribution in your group": "Grades distribution in your group",
+  "You don't have any grades on this term": "You don't have any grades on this term"
 }
