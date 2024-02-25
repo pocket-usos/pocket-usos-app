@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import theme from '@styles/theme';
 
 const styles = StyleSheet.create({
@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 48,
-    marginBottom: 24,
+    marginBottom: Platform.OS === 'ios' ? 24 : 8,
   },
   mainMenuItem: {
     width: '25%',
