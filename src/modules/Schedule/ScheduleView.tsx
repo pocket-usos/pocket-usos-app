@@ -54,6 +54,12 @@ const ScheduleView: React.FC<Props> = ({
   const toStartLetterUppercase = (str: string) =>
     str[0].toUpperCase() + str.slice(1);
 
+  const getScheduleMinHour = (scheduleForDay: CalendarItem[]) => {
+    const startHours = scheduleForDay?.map(item => moment(item.start).hour());
+
+    return Math.min(...startHours);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -91,7 +97,7 @@ const ScheduleView: React.FC<Props> = ({
       {schedule && (schedule?.length ?? 0) > 0 && !isFetching ? (
         <ScrollView style={styles.timetableView} horizontal={false}>
           <Timetable
-            fromHour={8}
+            fromHour={getScheduleMinHour(schedule)}
             toHour={22}
             hideNowLine={!isToday()}
             scrollViewProps={{horizontal: false}}

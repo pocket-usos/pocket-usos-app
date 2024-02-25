@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   timetableItem: {
     backgroundColor: theme.colors.primary,
     borderRadius: 24,
+    borderTopLeftRadius: 0,
     padding: 16,
   },
   timetablePastItem: {
