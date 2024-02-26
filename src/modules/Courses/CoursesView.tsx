@@ -68,9 +68,9 @@ const CoursesView: React.FC<Props> = ({
 
   const getCourseBackgroudColor = (courseIndex: number) => {
     const colors = [
-      theme.colors.primary,
       theme.colors.secondary,
       theme.colors.additional.red,
+      theme.colors.primary,
     ];
 
     return colors[courseIndex % colors.length];
