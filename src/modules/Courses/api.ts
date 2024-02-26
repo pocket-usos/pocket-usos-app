@@ -1,10 +1,10 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import Profile from './Model/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Course from '@modules/Courses/Model/Course.ts';
 import {API_URL} from '@store/env';
 
-export const usersApi = createApi({
-  reducerPath: 'usersApi',
+export const coursesApi = createApi({
+  reducerPath: 'coursesApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     prepareHeaders: async (headers: Headers): Promise<Headers> => {
@@ -18,23 +18,21 @@ export const usersApi = createApi({
     },
   }),
   endpoints: builder => ({
-    getProfile: builder.query<Profile, void>({
-      query: () => ({
-        url: 'users/me',
-        method: 'GET',
-      }),
-    }),
-    getUsersPhotos: builder.query<{[id: string]: string}, string[]>({
-      query: usersIds => ({
-        url: 'users/photos',
+    getCourses: builder.query<
+      Course[],
+      {termId?: string; withSchedule?: boolean}
+    >({
+      query: request => ({
+        url: 'courses',
         method: 'GET',
         params: {
-          usersIds,
+          term: request.termId,
+          withSchedule: request.withSchedule ?? false,
         },
       }),
     }),
   }),
 });
 
-export default usersApi;
-export const {useGetProfileQuery, useGetUsersPhotosQuery} = usersApi;
+export default coursesApi;
+export const {useGetCoursesQuery} = coursesApi;

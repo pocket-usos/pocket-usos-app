@@ -3,11 +3,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
 import GetScheduleRequest from '@modules/Schedule/Request/GetScheduleRequest.ts';
 import moment from 'moment';
+import {API_URL} from '@store/env.ts';
 
 export const scheduleApi = createApi({
   reducerPath: 'scheduleApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080',
+    baseUrl: API_URL,
     prepareHeaders: async (headers: Headers): Promise<Headers> => {
       const sessionId = await AsyncStorage.getItem('sessionId');
 

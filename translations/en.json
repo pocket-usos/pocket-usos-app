@@ -26,5 +26,10 @@
   "Yes": "Yes",
   "No": "No",
   "Grades distribution in your group": "Grades distribution in your group",
-  "You don't have any grades on this term": "You don't have any grades on this term"
+  "You don't have any grades on this term": "You don't have any grades on this term",
+  "Your courses": "Your courses",
+  "Course progress": "Course progress",
+  "Completed": "Completed",
+  "Not started": "Not started",
+  "Loading": "Loading"
 }

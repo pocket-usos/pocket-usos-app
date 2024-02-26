@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   upcommingClassTitle: {
     color: theme.colors.neutral.white,
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 24,
   },
   upcomingClassAttribute: {

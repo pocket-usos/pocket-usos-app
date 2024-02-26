@@ -2,11 +2,12 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Term from './Model/Term';
 import TermGrades from '@modules/Grades/Model/TermGrades.ts';
+import {API_URL} from '@store/env.ts';
 
 export const gradesApi = createApi({
   reducerPath: 'gradesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080',
+    baseUrl: API_URL,
     prepareHeaders: async (headers: Headers): Promise<Headers> => {
       const sessionId = await AsyncStorage.getItem('sessionId');
 

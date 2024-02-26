@@ -6,6 +6,8 @@ declare global {
     interface ThemeColors {
       additional: {
         red: string;
+        green: string;
+        yellow: string;
       };
       neutral: {
         black: string;
@@ -55,8 +57,8 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#AD94F4',
-    secondary: '#FFAD72',
-    tertiary: '#FFCF6C',
+    secondary: '#FFA05C',
+    tertiary: '#FFD02C',
     additional: {
       red: '#FF7878',
       green: '#7EDA6E',

@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import AuthenticationSessionInitialisationResponse from './Response/AuthenticationSessionInitialisationResponse';
 import AuthenticateRequest from '@modules/Authentication/Request/AuthenticateRequest';
+import {API_URL} from '@store/env';
 
 export const authenticationApi = createApi({
   reducerPath: 'authenticationApi',
-  baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080'}),
+  baseQuery: fetchBaseQuery({baseUrl: API_URL}),
   endpoints: builder => ({
     initialiseAuthenticationSession: builder.mutation<
       AuthenticationSessionInitialisationResponse,
