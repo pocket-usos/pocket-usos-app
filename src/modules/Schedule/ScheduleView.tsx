@@ -160,7 +160,8 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
         isPast ? styles.timetablePastItem : null,
       ]}>
       <Text style={styles.timetableItemTitle}>
-        {title.slice(0, 50)} {title.length > 50 ? '...' : ''}
+        {title.slice(0, 50).trim()}
+        {title.length > 50 ? '...' : ''}
       </Text>
       <View style={styles.timetableItemAttribute}>
         <View style={styles.timetableItemIcon}>

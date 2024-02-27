@@ -1,12 +1,14 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Chip, ProgressBar, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import Term from '@modules/Grades/Model/Term';
-import {Image, ScrollView, View} from 'react-native';
+import {Image, Pressable, ScrollView, View} from 'react-native';
 import moment from 'moment';
 import styles from './styles';
 import Course from '@modules/Courses/Model/Course.ts';
+import {useNavigation} from '@react-navigation/native';
+import Animated from 'react-native-reanimated';
 
 interface Props {
   terms: Term[];
@@ -32,6 +34,23 @@ const CoursesView: React.FC<Props> = ({
 }) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
+  const navigation = useNavigation();
+
+  const goToCourseScreen = (course: Course, color: string) => {
+    if (!isFetchingSchedules) {
+      const courseWithSchedule = coursesWithSchedule?.find(
+        c => c.unitId === course.unitId && c.groupNumber === course.groupNumber,
+      );
+
+      if (courseWithSchedule) {
+        navigation.navigate('SingleCourse', {
+          course: courseWithSchedule,
+          color: color,
+          selectedTerm: selectedTerm,
+        });
+      }
+    }
+  };
 
   const getCourseProgressValue = (course: Course) => {
     const schedule = coursesWithSchedule?.find(
@@ -76,6 +95,11 @@ const CoursesView: React.FC<Props> = ({
     return colors[courseIndex % colors.length];
   };
 
+  const scrollViewRef = useRef<ScrollView>();
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({x: 0, y: 0, animated: true});
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -96,58 +120,74 @@ const CoursesView: React.FC<Props> = ({
               textStyle={styles.termText}
               selected={term.id === selectedTerm?.id}
               selectedColor={theme.colors.neutral.white}
-              onPress={() => onTermSelect(term)}>
+              onPress={() => {
+                onTermSelect(term);
+                scrollToTop();
+              }}>
               {term.name}
             </Chip>
           ))}
         </ScrollView>
       </View>
-      <ScrollView horizontal={false} style={styles.coursesContainer}>
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal={false}
+        style={styles.coursesContainer}>
         {courses?.map((course, index) => (
-          <View
+          <Pressable
             key={course.unitId}
-            style={[
-              styles.course,
-              {backgroundColor: getCourseBackgroudColor(index)},
-            ]}>
-            <Text variant="titleMedium" style={styles.courseTitle}>
-              {course.name}
-            </Text>
-            <View style={styles.courseProgress}>
-              <Text style={styles.courseProgressLabel}>
-                {`${t('Course progress')} - ${getCourseProgressResultText(
-                  course,
-                )}`}
+            onPress={() =>
+              goToCourseScreen(course, getCourseBackgroudColor(index))
+            }>
+            <Animated.View
+              sharedTransitionTag={`course-${course.unitId}`}
+              style={[
+                styles.course,
+                {backgroundColor: getCourseBackgroudColor(index)},
+              ]}>
+              <Text variant="titleMedium" style={styles.courseTitle}>
+                {course.name}
               </Text>
-              <ProgressBar
-                indeterminate={isFetchingSchedules}
-                progress={getCourseProgressValue(course)}
-                style={styles.courseProgressBar}
-                fillStyle={styles.courseProgressBarFilled}
-              />
-            </View>
-            <View style={styles.courseAttribute}>
-              <View style={styles.courseAttributeIcon}>
-                {areLecturersPhotosFetching || lecturersPhotos === undefined ? (
-                  <Image
-                    source={require('../../../assets/images/user-avatar-blank.png')}
-                    style={styles.lecturersPhoto}
-                  />
-                ) : (
-                  <Image
-                    source={{uri: lecturersPhotos[course.lecturers[0].id]}}
-                    style={styles.lecturersPhoto}
-                  />
-                )}
+              <Text style={styles.groupNumber}>{`${t('Group')} #${
+                course.groupNumber
+              }`}</Text>
+              <View style={styles.courseProgress}>
+                <Text style={styles.courseProgressLabel}>
+                  {`${t('Course progress')} - ${getCourseProgressResultText(
+                    course,
+                  )}`}
+                </Text>
+                <ProgressBar
+                  indeterminate={isFetchingSchedules}
+                  progress={getCourseProgressValue(course)}
+                  style={styles.courseProgressBar}
+                  fillStyle={styles.courseProgressBarFilled}
+                />
               </View>
-              <Text style={styles.courseAttributeText}>
-                {`${course.lecturers[0].firstName} ${course.lecturers[0].lastName}`}
-              </Text>
-            </View>
-            <View style={styles.classTypeContainer}>
-              <Text style={styles.classTypeText}>{course.classType.id}</Text>
-            </View>
-          </View>
+              <View style={styles.courseAttribute}>
+                <View style={styles.courseAttributeIcon}>
+                  {areLecturersPhotosFetching ||
+                  lecturersPhotos === undefined ? (
+                    <Image
+                      source={require('../../../assets/images/user-avatar-blank.png')}
+                      style={styles.lecturersPhoto}
+                    />
+                  ) : (
+                    <Image
+                      source={{uri: lecturersPhotos[course.lecturers[0].id]}}
+                      style={styles.lecturersPhoto}
+                    />
+                  )}
+                </View>
+                <Text style={styles.courseAttributeText}>
+                  {`${course.lecturers[0].firstName} ${course.lecturers[0].lastName}`}
+                </Text>
+              </View>
+              <View style={styles.classTypeContainer}>
+                <Text style={styles.classTypeText}>{course.classType.id}</Text>
+              </View>
+            </Animated.View>
+          </Pressable>
         ))}
       </ScrollView>
     </View>

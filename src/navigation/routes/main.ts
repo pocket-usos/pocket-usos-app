@@ -2,6 +2,7 @@ import Home from '@modules/Home/Home';
 import Schedule from '@modules/Schedule/Schedule';
 import Grades from '@modules/Grades/Grades';
 import Courses from '@modules/Courses/Courses';
+import SingleCourse from '@modules/Courses/SingleCourse/SingleCourse.tsx';
 
 const main = {
   home: {
@@ -19,6 +20,10 @@ const main = {
   courses: {
     name: 'Courses',
     component: Courses,
+  },
+  singleCourse: {
+    name: 'SingleCourse',
+    component: SingleCourse,
   },
 };
 

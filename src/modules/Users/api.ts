@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import Profile from './Model/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_URL} from '@store/env';
+import User from './Model/User';
 
 export const usersApi = createApi({
   reducerPath: 'usersApi',
@@ -24,6 +25,21 @@ export const usersApi = createApi({
         method: 'GET',
       }),
     }),
+    getUser: builder.query<User, string>({
+      query: userId => ({
+        url: `users/${userId}`,
+        method: 'GET',
+      }),
+    }),
+    getUsers: builder.query<User[], string[]>({
+      query: usersIds => ({
+        url: 'users',
+        method: 'GET',
+        params: {
+          usersIds,
+        },
+      }),
+    }),
     getUsersPhotos: builder.query<{[id: string]: string}, string[]>({
       query: usersIds => ({
         url: 'users/photos',
@@ -37,4 +53,9 @@ export const usersApi = createApi({
 });
 
 export default usersApi;
-export const {useGetProfileQuery, useGetUsersPhotosQuery} = usersApi;
+export const {
+  useGetProfileQuery,
+  useGetUserQuery,
+  useGetUsersQuery,
+  useGetUsersPhotosQuery,
+} = usersApi;

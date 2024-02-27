@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
-import theme, {SafeAreaPadding} from '@styles/theme';
+import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: theme.colors.background,
+    paddingTop: SafeAreaTopPadding,
   },
   headerTitle: {
     color: theme.colors.neutral.black,

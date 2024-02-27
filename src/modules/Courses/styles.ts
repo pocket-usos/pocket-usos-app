@@ -1,15 +1,16 @@
 import {StyleSheet} from 'react-native';
-import theme, {SafeAreaPadding} from '@styles/theme';
+import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: theme.colors.background,
+    paddingTop: SafeAreaTopPadding,
   },
   headerTitle: {
     color: theme.colors.neutral.black,
     paddingHorizontal: SafeAreaPadding,
-    marginBottom: SafeAreaPadding,
+    marginBottom: 36,
   },
   terms: {
     paddingHorizontal: SafeAreaPadding,
@@ -42,6 +43,12 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
     fontSize: 16,
     fontWeight: '600',
+    marginBottom: 4,
+  },
+  groupNumber: {
+    color: '#F5F5F5',
+    fontSize: 13,
+    fontWeight: '500',
     marginBottom: 16,
   },
   courseProgress: {
@@ -81,6 +88,7 @@ const styles = StyleSheet.create({
   courseAttributeText: {
     color: theme.colors.neutral.white,
     fontSize: 14,
+    maxWidth: '85%',
   },
   classTypeContainer: {
     position: 'absolute',
