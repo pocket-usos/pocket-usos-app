@@ -192,7 +192,7 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
         style,
         styles.timetableItem,
         {backgroundColor: item.backgroundColor},
-        isPast ? styles.timetablePastItem : null,
+        isPast ? {backgroundColor: item.backgroundColor + 'A5'} : null,
       ]}>
       <Text style={styles.timetableItemTitle}>
         {title.slice(0, 50).trim()}
