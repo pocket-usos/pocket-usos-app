@@ -31,8 +31,17 @@ export const coursesApi = createApi({
         },
       }),
     }),
+    getCourse: builder.query<Course, {courseId: string; courseUnitId: string}>({
+      query: request => ({
+        url: `courses/${request.courseId}`,
+        method: 'GET',
+        params: {
+          courseUnitId: request.courseUnitId,
+        },
+      }),
+    }),
   }),
 });
 
 export default coursesApi;
-export const {useGetCoursesQuery} = coursesApi;
+export const {useGetCoursesQuery, useGetCourseQuery} = coursesApi;

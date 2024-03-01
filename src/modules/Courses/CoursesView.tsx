@@ -13,7 +13,6 @@ import Animated from 'react-native-reanimated';
 interface Props {
   terms: Term[];
   selectedTerm?: Term;
-  currentTerm?: Term;
   onTermSelect: (term: Term) => void;
   courses?: Course[];
   coursesWithSchedule?: Course[];
@@ -46,7 +45,7 @@ const CoursesView: React.FC<Props> = ({
         navigation.navigate('SingleCourse', {
           course: courseWithSchedule,
           color: color,
-          selectedTerm: selectedTerm,
+          previousScreen: 'Courses',
         });
       }
     }
@@ -60,9 +59,10 @@ const CoursesView: React.FC<Props> = ({
     if (schedule) {
       const count = schedule.classesCount;
       const completed = schedule.classesCompleted;
+      const courseTerm = terms.find(term => term.id === course.term);
 
       if (count === 0) {
-        return moment(selectedTerm?.endDate).isBefore(moment()) ? 1 : 0;
+        return moment(courseTerm?.endDate).isBefore(moment()) ? 1 : 0;
       }
 
       return completed / count;

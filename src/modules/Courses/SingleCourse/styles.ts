@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.black,
     fontWeight: '500',
     marginBottom: 4,
-    maxWidth: '85%',
+    maxWidth: '90%',
   },
   lecturerEmail: {
     fontSize: 12,

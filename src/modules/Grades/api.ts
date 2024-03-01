@@ -21,7 +21,7 @@ export const gradesApi = createApi({
   endpoints: builder => ({
     getTerms: builder.query<Term[], void>({
       query: () => ({
-        url: 'calendar/terms',
+        url: 'schedule/terms',
         method: 'GET',
       }),
     }),

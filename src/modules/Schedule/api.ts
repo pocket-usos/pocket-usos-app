@@ -25,7 +25,7 @@ export const scheduleApi = createApi({
       GetScheduleRequest | undefined
     >({
       query: request => ({
-        url: 'calendar/my',
+        url: 'schedule/my',
         method: 'GET',
         params: request
           ? {

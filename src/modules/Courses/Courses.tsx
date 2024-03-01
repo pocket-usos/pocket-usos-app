@@ -53,7 +53,6 @@ const CoursesContainer: React.FC = () => {
         <CoursesView
           terms={terms}
           selectedTerm={selectedTerm}
-          currentTerm={getCurrentTerm(terms)}
           onTermSelect={(term: Term) => setSelectedTerm(term)}
           courses={courses}
           coursesWithSchedule={coursesWithSchedule}

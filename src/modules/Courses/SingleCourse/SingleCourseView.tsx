@@ -15,18 +15,20 @@ import {useIsFocused} from '@react-navigation/native';
 
 interface Props {
   course: Course;
+  terms?: Term[];
   mainColor: string;
-  selectedTerm: Term;
   usersPhotos?: {[id: string]: string};
   lecturers?: User[];
+  goBack: () => void;
 }
 
 const SingleCourseView: React.FC<Props> = ({
   course,
+  terms,
   mainColor,
-  selectedTerm,
   usersPhotos,
   lecturers,
+  goBack,
 }) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
@@ -44,9 +46,14 @@ const SingleCourseView: React.FC<Props> = ({
   const getCourseProgressValue = (course: Course) => {
     const count = course.schedule.classesCount;
     const completed = course.schedule.classesCompleted;
+    const courseTerm = terms?.find(term => term.id === course.term);
+
+    if (courseTerm === undefined) {
+      return 0;
+    }
 
     if (count === 0) {
-      return moment(selectedTerm?.endDate).isBefore(moment()) ? 1 : 0;
+      return moment(courseTerm?.endDate).isBefore(moment()) ? 1 : 0;
     }
 
     return completed / count;
@@ -69,9 +76,7 @@ const SingleCourseView: React.FC<Props> = ({
       <Animated.View
         sharedTransitionTag={`course-${course.unitId}`}
         style={[styles.header, {backgroundColor: mainColor}]}>
-        <Pressable
-          onPress={() => navigation.navigate('Courses')}
-          style={styles.backButton}>
+        <Pressable onPress={goBack} style={styles.backButton}>
           <FontAwesomeIcon
             name="chevron-left"
             solid
