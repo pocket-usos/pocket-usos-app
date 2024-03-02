@@ -6,6 +6,7 @@ import styles from './styles';
 import {
   Dimensions,
   Image,
+  Pressable,
   ScrollView,
   TouchableOpacity,
   View,
@@ -19,6 +20,7 @@ import {configureCalendarLocale} from '../../../translations/calendarLocaleConfi
 import CalendarModal from '@modules/Schedule/CalendarModal/CalendarModal.tsx';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
 import Timetable from 'react-native-calendar-timetable';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   chosenDate: Date;
@@ -35,6 +37,7 @@ const ScheduleView: React.FC<Props> = ({
 }) => {
   const theme = useAppTheme();
   const {t, i18n} = useTranslation();
+  const navigation = useNavigation();
 
   const [calendarDatePickerVisible, setCalendarDatePickerVisible] =
     useState(false);
@@ -58,6 +61,29 @@ const ScheduleView: React.FC<Props> = ({
     const startHours = scheduleForDay?.map(item => moment(item.start).hour());
 
     return Math.min(...startHours);
+  };
+
+  const goToCourseScreen = (
+    courseId: string,
+    courseUnitId: number,
+    color: string,
+  ) => {
+    navigation.navigate('SingleCourse', {
+      courseId,
+      courseUnitId: courseUnitId.toString(),
+      color,
+      previousScreen: 'Schedule',
+    });
+  };
+
+  const getItemBackgroudColor = (index: number) => {
+    const colors = [
+      theme.colors.secondary,
+      theme.colors.additional.red,
+      theme.colors.primary,
+    ];
+
+    return colors[index % colors.length];
   };
 
   return (
@@ -107,10 +133,17 @@ const ScheduleView: React.FC<Props> = ({
               lines: styles.timetableLines,
               time: styles.timetableTimeText,
             }}
-            items={schedule.map(item => {
+            items={schedule.map((item, index) => {
               return {
                 startDate: item.start,
                 endDate: item.end,
+                backgroundColor: getItemBackgroudColor(index),
+                onPress: () =>
+                  goToCourseScreen(
+                    item.courseId,
+                    item.courseUnitId,
+                    getItemBackgroudColor(index),
+                  ),
                 ...item,
               };
             })}
@@ -153,14 +186,17 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
   const isPast = moment(item.endDate).isBefore(moment());
 
   return (
-    <View
+    <Pressable
+      onPress={item.onPress}
       style={[
         style,
         styles.timetableItem,
-        isPast ? styles.timetablePastItem : null,
+        {backgroundColor: item.backgroundColor},
+        isPast ? {backgroundColor: item.backgroundColor + 'A5'} : null,
       ]}>
       <Text style={styles.timetableItemTitle}>
-        {title.slice(0, 50)} {title.length > 50 ? '...' : ''}
+        {title.slice(0, 50).trim()}
+        {title.length > 50 ? '...' : ''}
       </Text>
       <View style={styles.timetableItemAttribute}>
         <View style={styles.timetableItemIcon}>
@@ -192,7 +228,7 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
           {item.classType.id}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

@@ -6,6 +6,8 @@ declare global {
     interface ThemeColors {
       additional: {
         red: string;
+        green: string;
+        yellow: string;
       };
       neutral: {
         black: string;
@@ -27,6 +29,8 @@ declare global {
 }
 
 export const SafeAreaPadding = Platform.OS === 'ios' ? 36 : 24;
+
+export const SafeAreaTopPadding = Platform.OS === 'ios' ? 72 : 24;
 
 const theme = {
   ...DefaultTheme,
@@ -55,8 +59,8 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: '#AD94F4',
-    secondary: '#FFAD72',
-    tertiary: '#FFCF6C',
+    secondary: '#FFA05C',
+    tertiary: '#FFD02C',
     additional: {
       red: '#FF7878',
       green: '#7EDA6E',

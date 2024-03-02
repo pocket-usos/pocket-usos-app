@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
-import theme, {SafeAreaPadding} from '@styles/theme';
+import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: theme.colors.background,
+    paddingTop: SafeAreaTopPadding,
   },
   headerContainer: {
     paddingHorizontal: SafeAreaPadding,
@@ -53,9 +54,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderTopLeftRadius: 0,
     padding: 16,
-  },
-  timetablePastItem: {
-    backgroundColor: '#E0D6FD',
   },
   timetableTimeText: {
     color: theme.colors.neutral.black,

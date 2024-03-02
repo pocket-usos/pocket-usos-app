@@ -26,5 +26,15 @@
   "Yes": "Tak",
   "No": "Nie",
   "Grades distribution in your group": "Rozkład ocen w twojej grupie",
-  "You don't have any grades on this term": "W tym terminie nie masz żadnych wystawionych ocen"
+  "You don't have any grades on this term": "W tym terminie nie masz żadnych wystawionych ocen",
+  "Your courses": "Twoje przedmioty",
+  "Course progress": "Postępy przedmiotu",
+  "Completed": "Zakończony",
+  "Not started": "Nie rozpoczęty",
+  "Loading": "Ładowanie",
+  "Back": "Wstecz",
+  "Lecturers": "Wykładowcy",
+  "Your group": "Twoja grupa",
+  "Group": "Grupa",
+  "people": "osób"
 }

@@ -5,6 +5,7 @@ import authenticationApi from '@modules/Authentication/api';
 import usersApi from '@modules/Users/api.ts';
 import scheduleApi from '@modules/Schedule/api.ts';
 import gradesApi from '@modules/Grades/api.ts';
+import coursesApi from '@modules/Courses/api.ts';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     [usersApi.reducerPath]: usersApi.reducer,
     [scheduleApi.reducerPath]: scheduleApi.reducer,
     [gradesApi.reducerPath]: gradesApi.reducer,
+    [coursesApi.reducerPath]: coursesApi.reducer,
     authentication: authenticationReducer,
     notification: notificationReducer,
   },
@@ -21,6 +23,7 @@ export const store = configureStore({
       usersApi.middleware,
       scheduleApi.middleware,
       gradesApi.middleware,
+      coursesApi.middleware,
     ]),
 });
 
