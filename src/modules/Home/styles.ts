@@ -1,10 +1,9 @@
 import {StyleSheet} from 'react-native';
-import theme from '@styles/theme';
+import theme, {SafeAreaPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
   profilePreview: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
   },
   profileLabel: {
@@ -15,8 +14,47 @@ const styles = StyleSheet.create({
   profilePreviewPhoto: {
     width: 50,
     height: 50,
-    borderRadius: 20,
+    borderRadius: 50,
+    marginRight: 12,
   },
+  menuButton: {
+    marginLeft: 'auto',
+  },
+  menuButtonIcon: {
+    width: 28,
+    height: 28,
+  },
+  bottomDrawer: {
+    padding: SafeAreaPadding,
+    paddingTop: 0,
+  },
+  signOutButton: {
+    borderRadius: 20,
+    borderColor: theme.colors.additional.red,
+    backgroundColor: 'transparent',
+    marginTop: 16,
+  },
+  signOutButtonContent: {
+    paddingVertical: 10,
+  },
+  signOutButtonLabel: {
+    color: theme.colors.additional.red,
+    fontSize: 14,
+  },
+  signOutDialog: {
+    backgroundColor: theme.colors.neutral.white,
+    alignItems: 'center',
+  },
+  dialogActionStyle: {
+    borderRadius: 14,
+    borderColor: theme.colors.primary,
+    flexGrow: 1,
+  },
+  dialogActionContentStyle: {
+    //    paddingVertical: 4,
+    paddingHorizontal: 24,
+  },
+  dialogActionLabelStyle: {},
   upcomingClasses: {
     marginTop: 48,
   },
