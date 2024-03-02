@@ -24,13 +24,13 @@ export const authenticationSlice = createSlice({
       state.isAuthenticated = true;
       state.isAuthenticating = false;
     },
-    logout: state => {
+    signOut: state => {
       state.isAuthenticated = false;
     },
   },
 });
 
-export const {startAuthentication, stopAuthentication, authenticate, logout} =
+export const {startAuthentication, stopAuthentication, authenticate, signOut} =
   authenticationSlice.actions;
 
 export default authenticationSlice.reducer;
