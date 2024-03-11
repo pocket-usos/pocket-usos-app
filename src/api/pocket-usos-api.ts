@@ -14,9 +14,8 @@ const pocketUsosApi = createApi({
         headers.set('Session-Id', sessionId);
       }
 
-      const language = i18n.languages[0];
-      if (language) {
-        headers.set('Accept-Language', language)
+      if (i18n.resolvedLanguage) {
+        headers.set('Accept-Language', i18n.resolvedLanguage)
       }
 
       return headers;
