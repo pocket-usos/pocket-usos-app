@@ -1,24 +1,9 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
 import GetScheduleRequest from '@modules/Schedule/Request/GetScheduleRequest.ts';
 import moment from 'moment';
-import {API_URL} from '@store/env.ts';
+import pocketUsosApi from '../../api/pocket-usos-api';;
 
-export const scheduleApi = createApi({
-  reducerPath: 'scheduleApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
-    prepareHeaders: async (headers: Headers): Promise<Headers> => {
-      const sessionId = await AsyncStorage.getItem('sessionId');
-
-      if (sessionId) {
-        headers.set('Session-Id', sessionId);
-      }
-
-      return headers;
-    },
-  }),
+export const scheduleApi = pocketUsosApi.injectEndpoints({
   endpoints: builder => ({
     getMySchedule: builder.query<
       CalendarItem[],
@@ -32,7 +17,7 @@ export const scheduleApi = createApi({
               start: moment(request.start).format('YYYY-MM-D'),
               days: request.days,
             }
-          : null,
+          : undefined,
       }),
     }),
   }),
