@@ -1,23 +1,8 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import AuthenticationSessionInitialisationResponse from './Response/AuthenticationSessionInitialisationResponse';
 import AuthenticateRequest from '@modules/Authentication/Request/AuthenticateRequest';
-import {API_URL} from '@store/env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import pocketUsosApi from '../../api/pocket-usos-api';
 
-export const authenticationApi = createApi({
-  reducerPath: 'authenticationApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: API_URL,
-    prepareHeaders: async (headers: Headers): Promise<Headers> => {
-      const sessionId = await AsyncStorage.getItem('sessionId');
-
-      if (sessionId) {
-        headers.set('Session-Id', sessionId);
-      }
-
-      return headers;
-    },
-  }),
+export const authenticationApi = pocketUsosApi.injectEndpoints({
   endpoints: builder => ({
     initialiseAuthenticationSession: builder.mutation<
       AuthenticationSessionInitialisationResponse,
