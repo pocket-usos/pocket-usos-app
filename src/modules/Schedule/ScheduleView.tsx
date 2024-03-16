@@ -63,6 +63,13 @@ const ScheduleView: React.FC<Props> = ({
     return Math.min(...startHours);
   };
 
+  const nowIsLowerThanScheduleMinHour = (scheduleForDay: CalendarItem[]) => {
+    const minHour = getScheduleMinHour(scheduleForDay);
+    const nowHour = moment().hour();
+
+    return nowHour < minHour;
+  };
+
   const goToCourseScreen = (
     courseId: string,
     courseUnitId: number,
@@ -125,7 +132,7 @@ const ScheduleView: React.FC<Props> = ({
           <Timetable
             fromHour={getScheduleMinHour(schedule)}
             toHour={22}
-            hideNowLine={!isToday()}
+            hideNowLine={!isToday() || nowIsLowerThanScheduleMinHour(schedule)}
             scrollViewProps={{horizontal: false}}
             width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{

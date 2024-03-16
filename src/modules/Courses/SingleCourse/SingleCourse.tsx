@@ -44,6 +44,14 @@ const SingleCourseContainer: React.FC<Props> = ({navigation, route}) => {
 
   const goBack = () => navigation.navigate(route.params.previousScreen);
 
+  const goToLecturerDetails = (lecturerId: string) =>
+    navigation.navigate('LecturerDetails', {
+      lecturerId,
+      color: route.params.color,
+      previousScreen: 'SingleCourse',
+      previousScreenParams: route.params,
+    });
+
   const {data: usersPhotos} = useGetUsersPhotosQuery(getUsersIds(), {
     skip: course === undefined && route.params.course === undefined,
   });
@@ -63,6 +71,7 @@ const SingleCourseContainer: React.FC<Props> = ({navigation, route}) => {
           usersPhotos={usersPhotos}
           lecturers={lecturers}
           goBack={goBack}
+          goToLecturerDetails={goToLecturerDetails}
         />
       ) : null}
     </LoadableScreenView>

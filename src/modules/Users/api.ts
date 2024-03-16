@@ -1,18 +1,13 @@
 import Profile from './Model/Profile';
 import User from './Model/User';
-import pocketUsosApi from '../../api/pocket-usos-api';;
+import Lecturer from '@modules/Users/Model/Lecturer.ts';
+import pocketUsosApi from '../../api/pocket-usos-api';
 
 export const usersApi = pocketUsosApi.injectEndpoints({
   endpoints: builder => ({
     getProfile: builder.query<Profile, void>({
       query: () => ({
         url: 'users/me',
-        method: 'GET',
-      }),
-    }),
-    getUser: builder.query<User, string>({
-      query: userId => ({
-        url: `users/${userId}`,
         method: 'GET',
       }),
     }),
@@ -34,13 +29,19 @@ export const usersApi = pocketUsosApi.injectEndpoints({
         },
       }),
     }),
+    getLecturer: builder.query<Lecturer, string>({
+      query: lecturerId => ({
+        url: `users/${lecturerId}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
 export default usersApi;
 export const {
   useGetProfileQuery,
-  useGetUserQuery,
   useGetUsersQuery,
   useGetUsersPhotosQuery,
+  useGetLecturerQuery,
 } = usersApi;

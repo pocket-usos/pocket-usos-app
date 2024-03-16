@@ -81,7 +81,11 @@ const CoursesView: React.FC<Props> = ({
     } else if (courseProgress === 0) {
       return t('Not started');
     } else {
-      return `${course.schedule.classesCompleted} / ${course.schedule.classesCount}`;
+      const schedule = coursesWithSchedule?.find(
+        c => c.unitId === course.unitId && c.groupNumber === course.groupNumber,
+        )?.schedule;
+
+      return `${schedule.classesCompleted} / ${schedule.classesCount}`;
     }
   };
 

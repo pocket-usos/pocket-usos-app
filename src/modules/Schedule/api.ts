@@ -1,7 +1,9 @@
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
-import GetScheduleRequest from '@modules/Schedule/Request/GetScheduleRequest.ts';
+import GetScheduleRequest, {
+  GetLecturerScheduleRequest,
+} from '@modules/Schedule/Request/GetScheduleRequest.ts';
 import moment from 'moment';
-import pocketUsosApi from '../../api/pocket-usos-api';;
+import pocketUsosApi from '../../api/pocket-usos-api';
 
 export const scheduleApi = pocketUsosApi.injectEndpoints({
   endpoints: builder => ({
@@ -20,8 +22,23 @@ export const scheduleApi = pocketUsosApi.injectEndpoints({
           : undefined,
       }),
     }),
+    getLecturerSchedule: builder.query<
+      CalendarItem[],
+      GetLecturerScheduleRequest
+    >({
+      query: request => ({
+        url: `schedule/lecturers/${request.lecturerId}`,
+        method: 'GET',
+        params: {
+          start: request.start
+            ? moment(request.start).format('YYYY-MM-D')
+            : undefined,
+          days: request.days,
+        },
+      }),
+    }),
   }),
 });
 
 export default scheduleApi;
-export const {useGetMyScheduleQuery} = scheduleApi;
+export const {useGetMyScheduleQuery, useGetLecturerScheduleQuery} = scheduleApi;

@@ -9,7 +9,6 @@ import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6
 import moment from 'moment';
 import Term from '@modules/Grades/Model/Term.ts';
 import User from '@modules/Users/Model/User.ts';
-import {useNavigation} from '@react-navigation/native';
 import Animated from 'react-native-reanimated';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -20,6 +19,7 @@ interface Props {
   usersPhotos?: {[id: string]: string};
   lecturers?: User[];
   goBack: () => void;
+  goToLecturerDetails: (lecturerId: string) => void;
 }
 
 const SingleCourseView: React.FC<Props> = ({
@@ -29,10 +29,10 @@ const SingleCourseView: React.FC<Props> = ({
   usersPhotos,
   lecturers,
   goBack,
+  goToLecturerDetails,
 }) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
-  const navigation = useNavigation();
 
   const isFocused = useIsFocused();
   const scrollViewRef = useRef<ScrollView>();
@@ -118,7 +118,10 @@ const SingleCourseView: React.FC<Props> = ({
         <View style={styles.courseDetailsItem}>
           <Text style={styles.courseDetailsLabel}>{t('Lecturers')}</Text>
           {course.lecturers.map(lecturer => (
-            <View key={lecturer.id} style={styles.lecturer}>
+            <Pressable
+              key={lecturer.id}
+              style={styles.lecturer}
+              onPress={() => goToLecturerDetails(lecturer.id)}>
               {usersPhotos === undefined ? (
                 <Image
                   source={require('../../../../assets/images/user-avatar-blank.png')}
@@ -155,7 +158,7 @@ const SingleCourseView: React.FC<Props> = ({
                   color={theme.colors.neutral['700']}
                 />
               </Pressable>
-            </View>
+            </Pressable>
           ))}
         </View>
         <View style={styles.courseDetailsItem}>
