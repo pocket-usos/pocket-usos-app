@@ -28,7 +28,7 @@ declare global {
   }
 }
 
-export const SafeAreaPadding = Platform.OS === 'ios' ? 36 : 24;
+export const SafeAreaPadding = 24;
 
 export const SafeAreaTopPadding = Platform.OS === 'ios' ? 72 : 24;
 

@@ -3,6 +3,7 @@ import Profile from './Model/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_URL} from '@store/env';
 import User from './Model/User';
+import Lecturer from '@modules/Users/Model/Lecturer.ts';
 
 export const usersApi = createApi({
   reducerPath: 'usersApi',
@@ -25,12 +26,6 @@ export const usersApi = createApi({
         method: 'GET',
       }),
     }),
-    getUser: builder.query<User, string>({
-      query: userId => ({
-        url: `users/${userId}`,
-        method: 'GET',
-      }),
-    }),
     getUsers: builder.query<User[], string[]>({
       query: usersIds => ({
         url: 'users',
@@ -49,13 +44,19 @@ export const usersApi = createApi({
         },
       }),
     }),
+    getLecturer: builder.query<Lecturer, string>({
+      query: lecturerId => ({
+        url: `users/${lecturerId}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
 export default usersApi;
 export const {
   useGetProfileQuery,
-  useGetUserQuery,
   useGetUsersQuery,
   useGetUsersPhotosQuery,
+  useGetLecturerQuery,
 } = usersApi;

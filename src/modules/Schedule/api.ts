@@ -1,7 +1,9 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
-import GetScheduleRequest from '@modules/Schedule/Request/GetScheduleRequest.ts';
+import GetScheduleRequest, {
+  GetLecturerScheduleRequest,
+} from '@modules/Schedule/Request/GetScheduleRequest.ts';
 import moment from 'moment';
 import {API_URL} from '@store/env.ts';
 
@@ -32,11 +34,26 @@ export const scheduleApi = createApi({
               start: moment(request.start).format('YYYY-MM-D'),
               days: request.days,
             }
-          : null,
+          : undefined,
+      }),
+    }),
+    getLecturerSchedule: builder.query<
+      CalendarItem[],
+      GetLecturerScheduleRequest
+    >({
+      query: request => ({
+        url: `schedule/lecturers/${request.lecturerId}`,
+        method: 'GET',
+        params: {
+          start: request.start
+            ? moment(request.start).format('YYYY-MM-D')
+            : undefined,
+          days: request.days,
+        },
       }),
     }),
   }),
 });
 
 export default scheduleApi;
-export const {useGetMyScheduleQuery} = scheduleApi;
+export const {useGetMyScheduleQuery, useGetLecturerScheduleQuery} = scheduleApi;

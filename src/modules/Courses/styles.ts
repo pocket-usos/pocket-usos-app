@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   courseAttributeText: {
     color: theme.colors.neutral.white,
     fontSize: 14,
-    maxWidth: '85%',
+    maxWidth: '80%',
   },
   classTypeContainer: {
     position: 'absolute',
