@@ -6,6 +6,7 @@ import usersApi from '@modules/Users/api.ts';
 import scheduleApi from '@modules/Schedule/api.ts';
 import gradesApi from '@modules/Grades/api.ts';
 import coursesApi from '@modules/Courses/api.ts';
+import {ErrorHandlingMiddleware} from '../api/error-handling-middleware.ts';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
       scheduleApi.middleware,
       gradesApi.middleware,
       coursesApi.middleware,
+      ErrorHandlingMiddleware,
     ]),
 });
 
