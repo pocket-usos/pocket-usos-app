@@ -21,7 +21,7 @@ export const ErrorHandlingMiddleware: Middleware =
         store.dispatch(
           showNotification({
             type: 'error',
-            message: message ?? t('You have been signed out'),
+            message: message ?? t('You have been signed out from USOS'),
           }),
         );
       } else {
