@@ -14,7 +14,6 @@ export interface TermCourseUnit {
   id: string;
   type: ClassType;
   grades: SessionGrade[];
-  gradesDistribution: GradesDistributionItem[];
 }
 
 interface ClassType {
@@ -41,7 +40,7 @@ interface GradeAuthor {
   lastName: string;
 }
 
-interface GradesDistributionItem {
+export interface GradesDistributionItem {
   percentage: number;
   grade: string;
 }
