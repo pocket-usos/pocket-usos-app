@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text} from 'react-native-paper';
+import React from 'react';
+import {ActivityIndicator, Text} from 'react-native-paper';
 import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import {Dimensions, Pressable, ScrollView, View} from 'react-native';
@@ -8,18 +8,32 @@ import {TermCourseUnit} from '@modules/Grades/Model/TermGrades.ts';
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
 import {BarChart} from 'react-native-gifted-charts';
 import moment from 'moment';
+import {useGetGradesDistributionQuery} from '@modules/Grades/api.ts';
 
 interface Props {
   unit: TermCourseUnit;
+  isOpened: boolean;
+  open: (unitId: string) => void;
+  close: () => void;
   courseName: string;
 }
 
-const UnitGrade: React.FC<Props> = ({unit, courseName}) => {
+const UnitGrade: React.FC<Props> = ({
+  unit,
+  courseName,
+  isOpened,
+  open,
+  close,
+}) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
-  const [isOpened, setIsOpened] = useState<boolean>(false);
   const lastGrade =
     unit.grades.slice(-1).length > 0 ? unit.grades.slice(-1)[0] : null;
+
+  const {data: gradesDistribution, isFetching: isFetchingGradesDistribution} =
+    useGetGradesDistributionQuery(unit.grades[0]?.examId, {
+      skip: !isOpened,
+    });
 
   const getGradeBackgroudColor = (grade?: string): string => {
     if (grade) {
@@ -41,7 +55,7 @@ const UnitGrade: React.FC<Props> = ({unit, courseName}) => {
     return theme.colors.additional.red;
   };
 
-  const gradesDistributionData = unit.gradesDistribution?.map(d => {
+  const gradesDistributionData = gradesDistribution?.map(d => {
     return {
       value: d.percentage,
       label: d.grade,
@@ -61,7 +75,7 @@ const UnitGrade: React.FC<Props> = ({unit, courseName}) => {
 
   const toggleUnitGradeDetails = () => {
     if (unit.grades.length > 0) {
-      setIsOpened(!isOpened);
+      !isOpened ? open(unit.id) : close();
     }
   };
 
@@ -131,7 +145,7 @@ const UnitGrade: React.FC<Props> = ({unit, courseName}) => {
           <Text style={styles.gradesDistributionLabel}>
             {t('Grades distribution in your group') + ':'}
           </Text>
-          {gradesDistributionData ? (
+          {gradesDistributionData && !isFetchingGradesDistribution ? (
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <BarChart
                 isAnimated
@@ -158,7 +172,11 @@ const UnitGrade: React.FC<Props> = ({unit, courseName}) => {
                 }
               />
             </ScrollView>
-          ) : null}
+          ) : (
+            <View style={styles.gradesDistributionLoader}>
+              <ActivityIndicator size="small" color={theme.colors.primary} />
+            </View>
+          )}
         </View>
       ) : null}
     </View>

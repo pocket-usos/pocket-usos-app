@@ -110,6 +110,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 16,
   },
+  gradesDistributionLoader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 96,
+  },
 });
 
 export default styles;

@@ -1,6 +1,8 @@
 import Term from './Model/Term';
-import TermGrades from '@modules/Grades/Model/TermGrades.ts';
-import pocketUsosApi from '../../api/pocket-usos-api';;
+import TermGrades, {
+  GradesDistributionItem,
+} from '@modules/Grades/Model/TermGrades.ts';
+import pocketUsosApi from '../../api/pocket-usos-api';
 
 export const gradesApi = pocketUsosApi.injectEndpoints({
   endpoints: builder => ({
@@ -17,8 +19,18 @@ export const gradesApi = pocketUsosApi.injectEndpoints({
         params: {term: termId},
       }),
     }),
+    getGradesDistribution: builder.query<GradesDistributionItem[], string>({
+      query: examId => ({
+        url: `grades/${examId}/distribution`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
 export default gradesApi;
-export const {useGetTermsQuery, useGetGradesQuery} = gradesApi;
+export const {
+  useGetTermsQuery,
+  useGetGradesQuery,
+  useGetGradesDistributionQuery,
+} = gradesApi;

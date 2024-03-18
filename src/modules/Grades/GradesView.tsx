@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {Chip, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
@@ -34,6 +34,17 @@ const GradesView: React.FC<Props> = ({
       courseGrades.units.find(unit => unit.grades.length > 0) === undefined,
   );
 
+  const [openedGrade, setOpenedGrade] = useState<string>();
+
+  const gradesScrollView = useRef<ScrollView>();
+
+  const openGrade = (unitId: string, index: number) => {
+    setOpenedGrade(unitId);
+    gradesScrollView.current?.scrollTo({x: 0, y: index * 65, animated: true});
+  };
+
+  const closeGrade = () => setOpenedGrade(undefined);
+
   return (
     <View style={styles.container}>
       <View>
@@ -68,18 +79,40 @@ const GradesView: React.FC<Props> = ({
           </Text>
         </View>
       ) : (
-        <ScrollView horizontal={false} style={styles.gradesContainer}>
-          {availableCourseGrades?.map(course => (
+        <ScrollView
+          ref={gradesScrollView}
+          horizontal={false}
+          style={styles.gradesContainer}>
+          {availableCourseGrades?.map((course, index) => (
             <View key={course.id}>
               {course.units.map(unit => (
-                <UnitGrade key={unit.id} unit={unit} courseName={course.name} />
+                <UnitGrade
+                  key={unit.id}
+                  unit={unit}
+                  courseName={course.name}
+                  isOpened={openedGrade === unit.id}
+                  open={(unitId: string) => openGrade(unitId, index)}
+                  close={closeGrade}
+                />
               ))}
             </View>
           ))}
-          {nonAvailableCourseGrades?.map(course => (
+          {nonAvailableCourseGrades?.map((course, index) => (
             <View key={course.id}>
               {course.units.map(unit => (
-                <UnitGrade key={unit.id} unit={unit} courseName={course.name} />
+                <UnitGrade
+                  key={unit.id}
+                  unit={unit}
+                  courseName={course.name}
+                  isOpened={openedGrade === unit.id}
+                  open={(unitId: string) =>
+                    openGrade(
+                      unitId,
+                      index + (availableCourseGrades?.length ?? 0),
+                    )
+                  }
+                  close={closeGrade}
+                />
               ))}
             </View>
           ))}
