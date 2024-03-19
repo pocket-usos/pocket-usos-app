@@ -25,6 +25,7 @@ const HomeView: React.FC<Props> = ({
     <ScreenContainer>
       <ScrollView
         horizontal={false}
+        showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
