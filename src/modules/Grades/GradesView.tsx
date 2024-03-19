@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {ActivityIndicator, Chip, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
-import {ScrollView, View} from 'react-native';
+import {RefreshControl, ScrollView, View} from 'react-native';
 import styles from './styles.ts';
 import Term from './Model/Term.ts';
 import TermGrades from '@modules/Grades/Model/TermGrades.ts';
@@ -13,6 +13,8 @@ interface Props {
   selectedTerm?: Term;
   onTermSelect: (term: Term) => void;
   isFetchingGrades: boolean;
+  isRefreshing: boolean;
+  onRefresh: () => void;
   grades?: TermGrades;
 }
 
@@ -21,6 +23,8 @@ const GradesView: React.FC<Props> = ({
   selectedTerm,
   onTermSelect,
   isFetchingGrades,
+  isRefreshing,
+  onRefresh,
   grades,
 }) => {
   const theme = useAppTheme();
@@ -90,6 +94,12 @@ const GradesView: React.FC<Props> = ({
             <ScrollView
               ref={gradesScrollView}
               horizontal={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={onRefresh}
+                />
+              }
               style={styles.gradesContainer}>
               {availableCourseGrades?.map((course, index) => (
                 <View key={course.id}>
