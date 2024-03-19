@@ -6,10 +6,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  profileLabel: {
+  studentNumber: {
     color: theme.colors.neutral['700'],
     fontSize: 13,
     letterSpacing: 1,
+    paddingBottom: 4,
   },
   profilePreviewPhoto: {
     width: 50,
@@ -68,7 +69,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     backgroundColor: theme.colors.primary,
     borderRadius: 32,
-    borderBottomLeftRadius: 0,
   },
   upcommingClassTitle: {
     color: theme.colors.neutral.white,
