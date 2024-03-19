@@ -43,16 +43,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: SafeAreaPadding,
     marginTop: 36,
   },
-  timetableContainer: {},
   timetableLines: {
-    borderTopColor: theme.colors.neutral['300'],
-    borderBottomColor: theme.colors.neutral['300'],
-    borderColor: 'transparent',
+    borderColor: theme.colors.neutral['300'],
+    borderStartColor: 'transparent',
+    borderEndColor: 'transparent',
+  },
+  timetableNowDot: {
+    backgroundColor: theme.colors.neutral.black,
+  },
+  timetableNowLine: {
+    backgroundColor: theme.colors.neutral.black,
   },
   timetableItem: {
     backgroundColor: theme.colors.primary,
     borderRadius: 24,
-    borderTopLeftRadius: 0,
     padding: 16,
   },
   timetableTimeText: {

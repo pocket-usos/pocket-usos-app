@@ -21,6 +21,7 @@ import CalendarModal from '@modules/Schedule/CalendarModal/CalendarModal.tsx';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
 import Timetable from 'react-native-calendar-timetable';
 import {useNavigation} from '@react-navigation/native';
+import tinycolor from 'tinycolor2';
 
 interface Props {
   chosenDate: Date;
@@ -136,9 +137,12 @@ const ScheduleView: React.FC<Props> = ({
             scrollViewProps={{horizontal: false}}
             width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{
-              container: styles.timetableContainer,
               lines: styles.timetableLines,
               time: styles.timetableTimeText,
+              nowLine: {
+                dot: styles.timetableNowDot,
+                line: styles.timetableNowLine,
+              },
             }}
             items={schedule.map((item, index) => {
               return {
@@ -199,7 +203,13 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
         style,
         styles.timetableItem,
         {backgroundColor: item.backgroundColor},
-        isPast ? {backgroundColor: item.backgroundColor + 'A5'} : null,
+        isPast
+          ? {
+              backgroundColor: tinycolor(item.backgroundColor)
+                .lighten(15)
+                .toString(),
+            }
+          : null,
       ]}>
       <Text style={styles.timetableItemTitle}>
         {title.slice(0, 50).trim()}

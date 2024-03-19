@@ -9,7 +9,6 @@ import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6
 import moment from 'moment';
 import Term from '@modules/Grades/Model/Term.ts';
 import User from '@modules/Users/Model/User.ts';
-import Animated from 'react-native-reanimated';
 import {useIsFocused} from '@react-navigation/native';
 
 interface Props {
@@ -73,9 +72,7 @@ const SingleCourseView: React.FC<Props> = ({
 
   return (
     <View style={styles.container}>
-      <Animated.View
-        sharedTransitionTag={`course-${course.unitId}`}
-        style={[styles.header, {backgroundColor: mainColor}]}>
+      <View style={[styles.header, {backgroundColor: mainColor}]}>
         <Pressable onPress={goBack} style={styles.backButton}>
           <FontAwesomeIcon
             name="chevron-left"
@@ -108,7 +105,7 @@ const SingleCourseView: React.FC<Props> = ({
             fillStyle={styles.courseProgressBarFilled}
           />
         </View>
-      </Animated.View>
+      </View>
       <ScrollView
         ref={scrollViewRef}
         scrollsToTop={true}

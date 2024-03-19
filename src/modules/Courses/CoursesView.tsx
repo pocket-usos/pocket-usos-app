@@ -8,7 +8,6 @@ import moment from 'moment';
 import styles from './styles';
 import Course from '@modules/Courses/Model/Course.ts';
 import {useNavigation} from '@react-navigation/native';
-import Animated from 'react-native-reanimated';
 
 interface Props {
   terms: Term[];
@@ -83,7 +82,7 @@ const CoursesView: React.FC<Props> = ({
     } else {
       const schedule = coursesWithSchedule?.find(
         c => c.unitId === course.unitId && c.groupNumber === course.groupNumber,
-        )?.schedule;
+      )?.schedule;
 
       return `${schedule.classesCompleted} / ${schedule.classesCount}`;
     }
@@ -143,8 +142,7 @@ const CoursesView: React.FC<Props> = ({
             onPress={() =>
               goToCourseScreen(course, getCourseBackgroudColor(index))
             }>
-            <Animated.View
-              sharedTransitionTag={`course-${course.unitId}`}
+            <View
               style={[
                 styles.course,
                 {backgroundColor: getCourseBackgroudColor(index)},
@@ -190,7 +188,7 @@ const CoursesView: React.FC<Props> = ({
               <View style={styles.classTypeContainer}>
                 <Text style={styles.classTypeText}>{course.classType.id}</Text>
               </View>
-            </Animated.View>
+            </View>
           </Pressable>
         ))}
       </ScrollView>
