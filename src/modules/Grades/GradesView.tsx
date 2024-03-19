@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Chip, Text} from 'react-native-paper';
+import {ActivityIndicator, Chip, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, View} from 'react-native';
@@ -12,6 +12,7 @@ interface Props {
   terms: Term[];
   selectedTerm?: Term;
   onTermSelect: (term: Term) => void;
+  isFetchingGrades: boolean;
   grades?: TermGrades;
 }
 
@@ -19,6 +20,7 @@ const GradesView: React.FC<Props> = ({
   terms,
   selectedTerm,
   onTermSelect,
+  isFetchingGrades,
   grades,
 }) => {
   const theme = useAppTheme();
@@ -71,52 +73,60 @@ const GradesView: React.FC<Props> = ({
           ))}
         </ScrollView>
       </View>
-      {availableCourseGrades?.length === 0 &&
-      nonAvailableCourseGrades?.length === 0 ? (
-        <View style={styles.gradesContainerPlaceholder}>
-          <Text style={styles.noGradesPlaceholder}>
-            {t("You don't have any grades on this term") + '.'}
-          </Text>
+      {isFetchingGrades ? (
+        <View style={styles.gradesLoader}>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
       ) : (
-        <ScrollView
-          ref={gradesScrollView}
-          horizontal={false}
-          style={styles.gradesContainer}>
-          {availableCourseGrades?.map((course, index) => (
-            <View key={course.id}>
-              {course.units.map(unit => (
-                <UnitGrade
-                  key={unit.id}
-                  unit={unit}
-                  courseName={course.name}
-                  isOpened={openedGrade === unit.id}
-                  open={(unitId: string) => openGrade(unitId, index)}
-                  close={closeGrade}
-                />
-              ))}
+        <View>
+          {availableCourseGrades?.length === 0 &&
+          nonAvailableCourseGrades?.length === 0 ? (
+            <View style={styles.gradesContainerPlaceholder}>
+              <Text style={styles.noGradesPlaceholder}>
+                {t("You don't have any grades on this term") + '.'}
+              </Text>
             </View>
-          ))}
-          {nonAvailableCourseGrades?.map((course, index) => (
-            <View key={course.id}>
-              {course.units.map(unit => (
-                <UnitGrade
-                  key={unit.id}
-                  unit={unit}
-                  courseName={course.name}
-                  isOpened={openedGrade === unit.id}
-                  open={(unitId: string) =>
-                    openGrade(
-                      unitId,
-                      index + (availableCourseGrades?.length ?? 0),
-                    )
-                  }
-                  close={closeGrade}
-                />
+          ) : (
+            <ScrollView
+              ref={gradesScrollView}
+              horizontal={false}
+              style={styles.gradesContainer}>
+              {availableCourseGrades?.map((course, index) => (
+                <View key={course.id}>
+                  {course.units.map(unit => (
+                    <UnitGrade
+                      key={unit.id}
+                      unit={unit}
+                      courseName={course.name}
+                      isOpened={openedGrade === unit.id}
+                      open={(unitId: string) => openGrade(unitId, index)}
+                      close={closeGrade}
+                    />
+                  ))}
+                </View>
               ))}
-            </View>
-          ))}
-        </ScrollView>
+              {nonAvailableCourseGrades?.map((course, index) => (
+                <View key={course.id}>
+                  {course.units.map(unit => (
+                    <UnitGrade
+                      key={unit.id}
+                      unit={unit}
+                      courseName={course.name}
+                      isOpened={openedGrade === unit.id}
+                      open={(unitId: string) =>
+                        openGrade(
+                          unitId,
+                          index + (availableCourseGrades?.length ?? 0),
+                        )
+                      }
+                      close={closeGrade}
+                    />
+                  ))}
+                </View>
+              ))}
+            </ScrollView>
+          )}
+        </View>
       )}
     </View>
   );

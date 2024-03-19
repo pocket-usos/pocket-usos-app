@@ -28,12 +28,13 @@ const GradesContainer: React.FC = () => {
   );
 
   return (
-    <LoadableScreenView isLoading={isFetchingTerms || isFetchingGrades}>
+    <LoadableScreenView isLoading={isFetchingTerms}>
       {terms && !isFetchingTerms ? (
         <GradesView
           terms={terms}
           selectedTerm={selectedTerm}
           onTermSelect={(term: Term) => setSelectedTerm(term)}
+          isFetchingGrades={isFetchingGrades}
           grades={grades}
         />
       ) : null}

@@ -48,12 +48,13 @@ const CoursesContainer: React.FC = () => {
     useGetUsersPhotosQuery(getLecturersIds(), {skip: courses === undefined});
 
   return (
-    <LoadableScreenView isLoading={isFetchingTerms || isFetchingCourses}>
+    <LoadableScreenView isLoading={isFetchingTerms}>
       {terms && !isFetchingTerms ? (
         <CoursesView
           terms={terms}
           selectedTerm={selectedTerm}
           onTermSelect={(term: Term) => setSelectedTerm(term)}
+          isFetchingCourses={isFetchingCourses}
           courses={courses}
           coursesWithSchedule={coursesWithSchedule}
           isFetchingSchedules={isFetchingSchedules}
