@@ -4,8 +4,9 @@ import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import styles from '../styles';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import 'moment/locale/pl';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
 import {configureCalendarLocale} from '../../../../translations/calendarLocaleConfig.ts';
 
 interface Props {
@@ -23,6 +24,7 @@ const CalendarModal: React.FC<Props> = ({
 }) => {
   const theme = useAppTheme();
   const {i18n} = useTranslation();
+  moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
 
   const locale = i18n.language.split('-')[0];
   configureCalendarLocale(locale);

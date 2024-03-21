@@ -15,6 +15,7 @@ import {
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
 import {default as IonIcon} from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import 'moment/locale/pl';
 import SingleDatePicker from '@modules/Schedule/SingleDatePicker/SingleDatePicker.tsx';
 import {configureCalendarLocale} from '../../../translations/calendarLocaleConfig.ts';
@@ -43,6 +44,7 @@ const ScheduleView: React.FC<Props> = ({
 }) => {
   const theme = useAppTheme();
   const {t, i18n} = useTranslation();
+  moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
   const navigation = useNavigation();
 
   const [calendarDatePickerVisible, setCalendarDatePickerVisible] =

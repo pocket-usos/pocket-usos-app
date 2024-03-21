@@ -7,6 +7,7 @@ import {default as IonIcon} from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
 import theme from '@styles/theme.ts';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import 'moment/locale/pl';
 
 interface Props {
@@ -19,7 +20,8 @@ interface Props {
 }
 
 const UpcomingClass: React.FC<Props> = props => {
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
+  moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
 
   const dayString = moment(props.start).format('dddd');
   const day = dayString[0].toUpperCase() + dayString.slice(1);
