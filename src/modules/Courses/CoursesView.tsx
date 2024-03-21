@@ -3,7 +3,7 @@ import {ActivityIndicator, Chip, ProgressBar, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import Term from '@modules/Grades/Model/Term';
-import {Image, Pressable, ScrollView, View} from 'react-native';
+import {Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
 import moment from 'moment';
 import styles from './styles';
 import Course from '@modules/Courses/Model/Course.ts';
@@ -19,6 +19,8 @@ interface Props {
   isFetchingSchedules: boolean;
   lecturersPhotos?: {[id: string]: string};
   areLecturersPhotosFetching: boolean;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const CoursesView: React.FC<Props> = ({
@@ -31,6 +33,8 @@ const CoursesView: React.FC<Props> = ({
   isFetchingSchedules,
   lecturersPhotos,
   areLecturersPhotosFetching,
+  isRefreshing,
+  onRefresh,
 }) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
@@ -142,7 +146,10 @@ const CoursesView: React.FC<Props> = ({
         <ScrollView
           ref={scrollViewRef}
           horizontal={false}
-          style={styles.coursesContainer}>
+          style={styles.coursesContainer}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }>
           {courses?.map((course, index) => (
             <Pressable
               key={course.unitId}

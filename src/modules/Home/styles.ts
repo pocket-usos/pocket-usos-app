@@ -5,6 +5,8 @@ const styles = StyleSheet.create({
   profilePreview: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: theme.colors.neutral.white,
+    paddingBottom: 16,
   },
   studentNumber: {
     color: theme.colors.neutral['700'],
@@ -52,12 +54,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   dialogActionContentStyle: {
-    //    paddingVertical: 4,
     paddingHorizontal: 24,
   },
   dialogActionLabelStyle: {},
   upcomingClasses: {
-    marginTop: 48,
+    marginTop: 24,
   },
   upcomingClassesTitle: {
     color: theme.colors.neutral.black,
