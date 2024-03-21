@@ -22,6 +22,12 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+      <intent-filter android:label="@string/filter_view_session">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="pocketusos" android:host="session"/>
+      </intent-filter>
     </activity>
   </application>
 </manifest>

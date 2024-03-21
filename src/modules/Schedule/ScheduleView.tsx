@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   Pressable,
+  RefreshControl,
   ScrollView,
   TouchableOpacity,
   View,
@@ -21,12 +22,15 @@ import CalendarModal from '@modules/Schedule/CalendarModal/CalendarModal.tsx';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
 import Timetable from 'react-native-calendar-timetable';
 import {useNavigation} from '@react-navigation/native';
+import tinycolor from 'tinycolor2';
 
 interface Props {
   chosenDate: Date;
   onChooseDate: (date: Date) => void;
   schedule?: CalendarItem[];
   isFetching: boolean;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const ScheduleView: React.FC<Props> = ({
@@ -34,6 +38,8 @@ const ScheduleView: React.FC<Props> = ({
   onChooseDate,
   schedule,
   isFetching,
+  isRefreshing,
+  onRefresh,
 }) => {
   const theme = useAppTheme();
   const {t, i18n} = useTranslation();
@@ -128,7 +134,12 @@ const ScheduleView: React.FC<Props> = ({
         />
       </View>
       {schedule && (schedule?.length ?? 0) > 0 && !isFetching ? (
-        <ScrollView style={styles.timetableView} horizontal={false}>
+        <ScrollView
+          style={styles.timetableView}
+          horizontal={false}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }>
           <Timetable
             fromHour={getScheduleMinHour(schedule)}
             toHour={22}
@@ -136,9 +147,12 @@ const ScheduleView: React.FC<Props> = ({
             scrollViewProps={{horizontal: false}}
             width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{
-              container: styles.timetableContainer,
               lines: styles.timetableLines,
               time: styles.timetableTimeText,
+              nowLine: {
+                dot: styles.timetableNowDot,
+                line: styles.timetableNowLine,
+              },
             }}
             items={schedule.map((item, index) => {
               return {
@@ -199,7 +213,13 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
         style,
         styles.timetableItem,
         {backgroundColor: item.backgroundColor},
-        isPast ? {backgroundColor: item.backgroundColor + 'A5'} : null,
+        isPast
+          ? {
+              backgroundColor: tinycolor(item.backgroundColor)
+                .lighten(15)
+                .toString(),
+            }
+          : null,
       ]}>
       <Text style={styles.timetableItemTitle}>
         {title.slice(0, 50).trim()}

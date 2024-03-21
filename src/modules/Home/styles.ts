@@ -5,11 +5,14 @@ const styles = StyleSheet.create({
   profilePreview: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: theme.colors.neutral.white,
+    paddingBottom: 16,
   },
-  profileLabel: {
+  studentNumber: {
     color: theme.colors.neutral['700'],
     fontSize: 13,
     letterSpacing: 1,
+    paddingBottom: 4,
   },
   profilePreviewPhoto: {
     width: 50,
@@ -51,12 +54,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   dialogActionContentStyle: {
-    //    paddingVertical: 4,
     paddingHorizontal: 24,
   },
   dialogActionLabelStyle: {},
   upcomingClasses: {
-    marginTop: 48,
+    marginTop: 24,
   },
   upcomingClassesTitle: {
     color: theme.colors.neutral.black,
@@ -68,7 +70,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     backgroundColor: theme.colors.primary,
     borderRadius: 32,
-    borderBottomLeftRadius: 0,
   },
   upcommingClassTitle: {
     color: theme.colors.neutral.white,

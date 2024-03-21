@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
@@ -114,6 +114,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 96,
+  },
+  gradesLoader: {
+    paddingVertical: (Dimensions.get('screen').height - 300) / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

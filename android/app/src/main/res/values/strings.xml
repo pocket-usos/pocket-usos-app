@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PocketUSOS</string>
+    <string name="filter_view_session">FilterViewSession</string>
 </resources>

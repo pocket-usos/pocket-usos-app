@@ -4,6 +4,7 @@ import {showNotification} from '@modules/Notification/state.ts';
 import type {MiddlewareAPI, Middleware} from '@reduxjs/toolkit';
 import {t} from 'i18next';
 import {signOut} from '@modules/Authentication/state.ts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const ErrorHandlingMiddleware: Middleware =
   (api: MiddlewareAPI) => next => action => {
@@ -17,6 +18,7 @@ export const ErrorHandlingMiddleware: Middleware =
 
       if (statusCode == 401) {
         store.dispatch(signOut());
+        AsyncStorage.removeItem('sessionId');
 
         store.dispatch(
           showNotification({
