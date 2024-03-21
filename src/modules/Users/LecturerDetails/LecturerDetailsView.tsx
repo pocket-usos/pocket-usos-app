@@ -148,7 +148,6 @@ const LecturerDetailsView: React.FC<Props> = ({
       <ScrollView
         style={{
           paddingHorizontal: SafeAreaPadding,
-          paddingTop: 12,
         }}>
         {lecturer.officeHoursInformation &&
         lecturer.officeHoursInformation.trim().length > 0 ? (
@@ -200,7 +199,7 @@ const LecturerDetailsView: React.FC<Props> = ({
               <ActivityIndicator size="small" color={theme.colors.primary} />
             </View>
           ) : (
-            <View>
+            <View style={{marginTop: -12}}>
               <Timetable
                 fromHour={8}
                 toHour={21}

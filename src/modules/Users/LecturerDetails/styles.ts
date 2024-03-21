@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
   },
   lecturerAttribute: {
-    marginTop: 24,
+    marginTop: 36,
   },
   lecturerAttributeHeader: {
     flexDirection: 'row',

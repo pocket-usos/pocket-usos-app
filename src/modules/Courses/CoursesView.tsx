@@ -115,27 +115,26 @@ const CoursesView: React.FC<Props> = ({
         <Text variant="headlineMedium" style={styles.headerTitle}>
           {t('Your courses')}
         </Text>
-        <ScrollView
-          horizontal
-          style={styles.terms}
-          showsHorizontalScrollIndicator={false}>
-          {terms.map(term => (
-            <Chip
-              key={term.id}
-              style={[
-                styles.term,
-                term.id === selectedTerm?.id ? styles.selectedTerm : null,
-              ]}
-              textStyle={styles.termText}
-              selected={term.id === selectedTerm?.id}
-              selectedColor={theme.colors.neutral.white}
-              onPress={() => {
-                onTermSelect(term);
-                scrollToTop();
-              }}>
-              {term.name}
-            </Chip>
-          ))}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View style={styles.termsContainer}>
+            {terms.map(term => (
+              <Chip
+                key={term.id}
+                style={[
+                  styles.term,
+                  term.id === selectedTerm?.id ? styles.selectedTerm : null,
+                ]}
+                textStyle={styles.termText}
+                selected={term.id === selectedTerm?.id}
+                selectedColor={theme.colors.neutral.white}
+                onPress={() => {
+                  onTermSelect(term);
+                  scrollToTop();
+                }}>
+                {term.name}
+              </Chip>
+            ))}
+          </View>
         </ScrollView>
       </View>
       {isFetchingCourses ? (
