@@ -22,18 +22,33 @@ const GradesContainer: React.FC = () => {
     setSelectedTerm(currentTerm);
   }, [terms]);
 
-  const {data: grades, isFetching: isFetchingGrades} = useGetGradesQuery(
-    selectedTerm?.id,
-    {skip: selectedTerm === undefined},
-  );
+  const {
+    data: grades,
+    isFetching: isFetchingGrades,
+    refetch: refetchGrades,
+  } = useGetGradesQuery(selectedTerm?.id, {skip: selectedTerm === undefined});
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    try {
+      setRefreshing(true);
+      await refetchGrades();
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
 
   return (
-    <LoadableScreenView isLoading={isFetchingTerms || isFetchingGrades}>
+    <LoadableScreenView isLoading={isFetchingTerms}>
       {terms && !isFetchingTerms ? (
         <GradesView
           terms={terms}
           selectedTerm={selectedTerm}
           onTermSelect={(term: Term) => setSelectedTerm(term)}
+          isFetchingGrades={isFetchingGrades}
+          isRefreshing={refreshing}
+          onRefresh={onRefresh}
           grades={grades}
         />
       ) : null}

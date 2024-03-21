@@ -7,6 +7,7 @@ import {
   Dimensions,
   Image,
   Pressable,
+  RefreshControl,
   ScrollView,
   TouchableOpacity,
   View,
@@ -28,6 +29,8 @@ interface Props {
   onChooseDate: (date: Date) => void;
   schedule?: CalendarItem[];
   isFetching: boolean;
+  isRefreshing: boolean;
+  onRefresh: () => void;
 }
 
 const ScheduleView: React.FC<Props> = ({
@@ -35,6 +38,8 @@ const ScheduleView: React.FC<Props> = ({
   onChooseDate,
   schedule,
   isFetching,
+  isRefreshing,
+  onRefresh,
 }) => {
   const theme = useAppTheme();
   const {t, i18n} = useTranslation();
@@ -129,7 +134,12 @@ const ScheduleView: React.FC<Props> = ({
         />
       </View>
       {schedule && (schedule?.length ?? 0) > 0 && !isFetching ? (
-        <ScrollView style={styles.timetableView} horizontal={false}>
+        <ScrollView
+          style={styles.timetableView}
+          horizontal={false}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }>
           <Timetable
             fromHour={getScheduleMinHour(schedule)}
             toHour={22}

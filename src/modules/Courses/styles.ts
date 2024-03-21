@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
@@ -105,6 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
     color: theme.colors.neutral.black,
+  },
+  coursesLoader: {
+    paddingVertical: (Dimensions.get('screen').height - 300) / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
