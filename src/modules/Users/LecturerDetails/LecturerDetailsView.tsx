@@ -186,7 +186,7 @@ const LecturerDetailsView: React.FC<Props> = ({
           </View>
         ) : null}
 
-        <View style={styles.lecturerAttribute}>
+        <View style={[styles.lecturerAttribute, styles.lecturerTimetable]}>
           <View style={styles.lecturerAttributeHeader}>
             <Text style={styles.lecturerAttribureLabel}>{t('Schedule')}</Text>
             <Text style={styles.seeAllButton} onPress={() => {}}>

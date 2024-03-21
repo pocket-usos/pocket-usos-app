@@ -147,6 +147,7 @@ const ScheduleView: React.FC<Props> = ({
             scrollViewProps={{horizontal: false}}
             width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{
+              container: styles.timetableContainer,
               lines: styles.timetableLines,
               time: styles.timetableTimeText,
               nowLine: {

@@ -34,6 +34,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: SafeAreaPadding,
     marginTop: 24,
   },
+  gradesInnerContainer: {
+    paddingBottom: 100,
+  },
   gradesContainerPlaceholder: {
     paddingHorizontal: SafeAreaPadding,
     marginTop: 24,

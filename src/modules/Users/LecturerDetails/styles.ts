@@ -93,6 +93,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
   },
+  lecturerTimetable: {
+    paddingBottom: 36,
+  },
   timetableItem: {
     backgroundColor: theme.colors.primary,
     borderRadius: 8,
