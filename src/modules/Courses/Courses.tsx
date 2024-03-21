@@ -27,38 +27,64 @@ const CoursesContainer: React.FC = () => {
         moment(term.endDate).startOf('day').isAfter(moment().startOf('day')),
     )[0];
 
-  const {data: courses, isFetching: isFetchingCourses} = useGetCoursesQuery(
+  const {
+    data: courses,
+    isFetching: isFetchingCourses,
+    refetch: refetchCourses,
+  } = useGetCoursesQuery(
     {termId: selectedTerm?.id},
     {skip: selectedTerm === undefined},
   );
 
-  const {data: coursesWithSchedule, isFetching: isFetchingSchedules} =
-    useGetCoursesQuery(
-      {termId: selectedTerm?.id, withSchedule: true},
-      {
-        skip: selectedTerm === undefined,
-      },
-    );
+  const {
+    data: coursesWithSchedule,
+    isFetching: isFetchingSchedules,
+    refetch: refetchCoursesWithSchedule,
+  } = useGetCoursesQuery(
+    {termId: selectedTerm?.id, withSchedule: true},
+    {
+      skip: selectedTerm === undefined,
+    },
+  );
 
   const getLecturersIds = (): string[] => {
     return courses?.map(course => course.lecturers[0].id) ?? [];
   };
 
-  const {data: lecturersPhotos, isFetching: areLecturersPhotosFetching} =
-    useGetUsersPhotosQuery(getLecturersIds(), {skip: courses === undefined});
+  const {
+    data: lecturersPhotos,
+    isFetching: areLecturersPhotosFetching,
+    refetch: refetchLecturersPhotos,
+  } = useGetUsersPhotosQuery(getLecturersIds(), {skip: courses === undefined});
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(async () => {
+    try {
+      setRefreshing(true);
+      await refetchCourses();
+      await refetchCoursesWithSchedule();
+      await refetchLecturersPhotos();
+    } finally {
+      setRefreshing(false);
+    }
+  }, []);
 
   return (
-    <LoadableScreenView isLoading={isFetchingTerms || isFetchingCourses}>
+    <LoadableScreenView isLoading={isFetchingTerms}>
       {terms && !isFetchingTerms ? (
         <CoursesView
           terms={terms}
           selectedTerm={selectedTerm}
           onTermSelect={(term: Term) => setSelectedTerm(term)}
+          isFetchingCourses={isFetchingCourses}
           courses={courses}
           coursesWithSchedule={coursesWithSchedule}
           isFetchingSchedules={isFetchingSchedules}
           lecturersPhotos={lecturersPhotos}
           areLecturersPhotosFetching={areLecturersPhotosFetching}
+          isRefreshing={refreshing}
+          onRefresh={onRefresh}
         />
       ) : null}
     </LoadableScreenView>

@@ -63,12 +63,12 @@ const ProfilePreview: React.FC<Props> = ({profile}) => {
         style={styles.profilePreviewPhoto}
       />
       <View>
-        <Text style={styles.profileLabel}>{t('Welcome back!')}</Text>
         <Text
           variant="headlineMedium"
           style={{color: theme.colors.neutral.black}}>
           {profile.firstName}
         </Text>
+        <Text style={styles.studentNumber}>{`#${profile.studentNumber}`}</Text>
       </View>
       <Pressable
         style={styles.menuButton}
