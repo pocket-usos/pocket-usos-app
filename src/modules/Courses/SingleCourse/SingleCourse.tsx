@@ -56,7 +56,9 @@ const SingleCourseContainer: React.FC<Props> = ({navigation, route}) => {
     skip: course === undefined && route.params.course === undefined,
   });
   const {data: lecturers} = useGetUsersQuery(getLecturersIds(), {
-    skip: course === undefined && route.params.course === undefined,
+    skip:
+      (course === undefined && route.params.course === undefined) ||
+      getLecturersIds().length === 0,
   });
 
   return (

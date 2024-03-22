@@ -57,13 +57,25 @@ const ScheduleView: React.FC<Props> = ({
   const isToday = () =>
     moment(chosenDate).startOf('day').isSame(moment().startOf('day'));
 
-  const chosenMonthAndDay = moment(chosenDate).format('MMMM DD');
+  const chosenMonthAndDay = moment(chosenDate)
+    .format('LL')
+    .replace(/\d{4}/, '')
+    .replace(',', '')
+    .trim();
   const chosenDayOfWeek = isToday()
     ? t('Today')
     : moment(chosenDate).startOf('day').format('dddd');
 
   const toStartLetterUppercase = (str: string) =>
     str[0].toUpperCase() + str.slice(1);
+
+  const toFirstLetterUppercase = (str: string) => {
+    const strings = str.split(' ');
+
+    const capitalizedStrings = strings.map(s => toStartLetterUppercase(s));
+
+    return capitalizedStrings.join(' ');
+  };
 
   const getScheduleMinHour = (scheduleForDay: CalendarItem[]) => {
     const startHours = scheduleForDay?.map(item => moment(item.start).hour());
@@ -105,7 +117,7 @@ const ScheduleView: React.FC<Props> = ({
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.chosenDate}>
-          {toStartLetterUppercase(chosenMonthAndDay)}
+          {toFirstLetterUppercase(chosenMonthAndDay)}
         </Text>
         <View style={styles.header}>
           <Text

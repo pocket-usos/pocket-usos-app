@@ -113,57 +113,60 @@ const SingleCourseView: React.FC<Props> = ({
         showsVerticalScrollIndicator={false}
         style={styles.courseDetails}>
         <View style={styles.courseDetailsContainer}>
-          <View style={styles.courseDetailsItem}>
-            <Text style={styles.courseDetailsLabel}>{t('Lecturers')}</Text>
-            {course.lecturers.map(lecturer => (
-              <Pressable
-                key={lecturer.id}
-                style={styles.lecturer}
-                onPress={() => goToLecturerDetails(lecturer.id)}>
-                {usersPhotos === undefined ? (
-                  <Image
-                    source={require('../../../../assets/images/user-avatar-blank.png')}
-                    style={styles.userPhoto}
-                  />
-                ) : (
-                  <Image
-                    source={{uri: usersPhotos[lecturer.id]}}
-                    style={styles.userPhoto}
-                  />
-                )}
-                <View style={styles.lecturerDetails}>
-                  <Text style={styles.lecturerName}>
-                    {`${
-                      lecturers?.find(l => l.id === lecturer.id)?.title ?? ''
-                    } ${lecturer.firstName} ${lecturer.lastName}`.trim()}
-                  </Text>
-                  <Text style={styles.lecturerEmail}>
-                    {lecturers?.find(l => l.id === lecturer.id)?.email ??
-                      'Email'}
-                  </Text>
-                </View>
+          {course.lecturers.length > 0 ? (
+            <View style={styles.courseDetailsItem}>
+              <Text style={styles.courseDetailsLabel}>{t('Lecturers')}</Text>
+              {course.lecturers.map(lecturer => (
                 <Pressable
-                  style={styles.sendEmailButton}
-                  onPress={async () =>
-                    await Linking.openURL(
-                      `mailto:${
-                        lecturers?.find(l => l.id === lecturer.id)?.email ?? ''
-                      }`,
-                    )
-                  }>
-                  <FontAwesomeIcon
-                    name="envelope"
-                    size={24}
-                    color={theme.colors.neutral['700']}
-                  />
+                  key={lecturer.id}
+                  style={styles.lecturer}
+                  onPress={() => goToLecturerDetails(lecturer.id)}>
+                  {usersPhotos === undefined ? (
+                    <Image
+                      source={require('../../../../assets/images/user-avatar-blank.png')}
+                      style={styles.userPhoto}
+                    />
+                  ) : (
+                    <Image
+                      source={{uri: usersPhotos[lecturer.id]}}
+                      style={styles.userPhoto}
+                    />
+                  )}
+                  <View style={styles.lecturerDetails}>
+                    <Text style={styles.lecturerName}>
+                      {`${
+                        lecturers?.find(l => l.id === lecturer.id)?.title ?? ''
+                      } ${lecturer.firstName} ${lecturer.lastName}`.trim()}
+                    </Text>
+                    <Text style={styles.lecturerEmail}>
+                      {lecturers?.find(l => l.id === lecturer.id)?.email ??
+                        'Email'}
+                    </Text>
+                  </View>
+                  <Pressable
+                    style={styles.sendEmailButton}
+                    onPress={async () =>
+                      await Linking.openURL(
+                        `mailto:${
+                          lecturers?.find(l => l.id === lecturer.id)?.email ??
+                          ''
+                        }`,
+                      )
+                    }>
+                    <FontAwesomeIcon
+                      name="envelope"
+                      size={24}
+                      color={theme.colors.neutral['700']}
+                    />
+                  </Pressable>
                 </Pressable>
-              </Pressable>
-            ))}
-          </View>
+              ))}
+            </View>
+          ) : null}
           <View style={styles.courseDetailsItem}>
             <Text style={styles.courseDetailsLabel}>{`${t('Your group')} - ${
               course.participants?.length
-            } ${t('people')}`}</Text>
+            } ${t('person', {count: course.participants?.length})}`}</Text>
             {course.participants?.map(participant => (
               <View key={participant.id} style={styles.participant}>
                 {usersPhotos === undefined ? (

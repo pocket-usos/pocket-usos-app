@@ -26,7 +26,7 @@ const CalendarModal: React.FC<Props> = ({
   const {i18n} = useTranslation();
   moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
 
-  const locale = i18n.language.split('-')[0];
+  const locale = i18n.resolvedLanguage ?? 'en';
   configureCalendarLocale(locale);
 
   return (
