@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit';
 import authenticationReducer from '@modules/Authentication/state';
 import notificationReducer from '@modules/Notification/state';
+import errorReducer from '@modules/Errors/state';
 import authenticationApi from '@modules/Authentication/api';
 import usersApi from '@modules/Users/api.ts';
 import scheduleApi from '@modules/Schedule/api.ts';
@@ -17,6 +18,7 @@ export const store = configureStore({
     [coursesApi.reducerPath]: coursesApi.reducer,
     authentication: authenticationReducer,
     notification: notificationReducer,
+    error: errorReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({serializableCheck: false}).concat([
