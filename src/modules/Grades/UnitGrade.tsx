@@ -137,13 +137,17 @@ const UnitGrade: React.FC<Props> = ({
           <View style={styles.gradeDetailsRow}>
             <Text style={styles.gradeDetailsLabel}>{t('Given at')}</Text>
             <Text style={styles.gradeDetailsValue}>
-              {moment(lastGrade?.modifiedAt).format('YYYY-MM-DD HH:mm')}
+              {lastGrade?.modifiedAt
+                ? moment(lastGrade?.modifiedAt).format('YYYY-MM-DD HH:mm')
+                : '-'}
             </Text>
           </View>
           <View style={styles.gradeDetailsRow}>
             <Text style={styles.gradeDetailsLabel}>{t('Given by')}</Text>
             <Text style={styles.gradeDetailsValue}>
-              {`${lastGrade?.modifiedBy.firstName} ${lastGrade?.modifiedBy.lastName}`}
+              {lastGrade?.modifiedBy
+                ? `${lastGrade.modifiedBy.firstName} ${lastGrade.modifiedBy.lastName}`
+                : '-'}
             </Text>
           </View>
           <Text style={styles.gradesDistributionLabel}>
