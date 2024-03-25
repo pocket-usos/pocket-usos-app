@@ -12,11 +12,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: SafeAreaPadding,
     marginBottom: SafeAreaPadding,
   },
-  terms: {
+  termsContainer: {
     paddingHorizontal: SafeAreaPadding,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
   term: {
-    marginRight: 12,
     backgroundColor: theme.colors.primary,
     opacity: 0.5,
     borderRadius: 16,
@@ -31,6 +33,9 @@ const styles = StyleSheet.create({
   gradesContainer: {
     paddingHorizontal: SafeAreaPadding,
     marginTop: 24,
+  },
+  gradesInnerContainer: {
+    paddingBottom: 100,
   },
   gradesContainerPlaceholder: {
     paddingHorizontal: SafeAreaPadding,

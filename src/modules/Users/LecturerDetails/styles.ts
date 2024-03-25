@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
   },
   lecturerAttribute: {
-    marginTop: 24,
+    marginTop: 36,
   },
   lecturerAttributeHeader: {
     flexDirection: 'row',
@@ -92,6 +92,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 16,
+  },
+  lecturerTimetable: {
+    paddingBottom: 36,
   },
   timetableItem: {
     backgroundColor: theme.colors.primary,

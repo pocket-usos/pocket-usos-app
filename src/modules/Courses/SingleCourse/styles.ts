@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
   },
   courseDetails: {
     paddingHorizontal: SafeAreaPadding,
+  },
+  courseDetailsContainer: {
     paddingTop: 36,
   },
   courseDetailsItem: {

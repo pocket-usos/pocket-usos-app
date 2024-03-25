@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {ActivityIndicator, Chip, ProgressBar, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
@@ -104,10 +104,30 @@ const CoursesView: React.FC<Props> = ({
     return colors[courseIndex % colors.length];
   };
 
+  const termsScrollView = useRef<ScrollView>();
   const scrollViewRef = useRef<ScrollView>();
   const scrollToTop = () => {
     scrollViewRef.current?.scrollTo({x: 0, y: 0, animated: true});
   };
+
+  useEffect(() => {
+    const coordinates: {[termId: string]: number} = {};
+    coordinates[terms[0].id] = 0;
+    terms.forEach((term, index) => {
+      if (index > 0) {
+        coordinates[term.id] =
+          coordinates[terms[index - 1].id] + term.name.length * 9;
+      }
+    });
+
+    if (selectedTerm) {
+      termsScrollView.current?.scrollTo({
+        x: coordinates[selectedTerm?.id],
+        y: 0,
+        animated: true,
+      });
+    }
+  }, [terms, selectedTerm, termsScrollView]);
 
   return (
     <View style={styles.container}>
@@ -116,26 +136,28 @@ const CoursesView: React.FC<Props> = ({
           {t('Your courses')}
         </Text>
         <ScrollView
+          ref={termsScrollView}
           horizontal
-          style={styles.terms}
           showsHorizontalScrollIndicator={false}>
-          {terms.map(term => (
-            <Chip
-              key={term.id}
-              style={[
-                styles.term,
-                term.id === selectedTerm?.id ? styles.selectedTerm : null,
-              ]}
-              textStyle={styles.termText}
-              selected={term.id === selectedTerm?.id}
-              selectedColor={theme.colors.neutral.white}
-              onPress={() => {
-                onTermSelect(term);
-                scrollToTop();
-              }}>
-              {term.name}
-            </Chip>
-          ))}
+          <View style={styles.termsContainer}>
+            {terms.map(term => (
+              <Chip
+                key={term.id}
+                style={[
+                  styles.term,
+                  term.id === selectedTerm?.id ? styles.selectedTerm : null,
+                ]}
+                textStyle={styles.termText}
+                selected={term.id === selectedTerm?.id}
+                selectedColor={theme.colors.neutral.white}
+                onPress={() => {
+                  onTermSelect(term);
+                  scrollToTop();
+                }}>
+                {term.name}
+              </Chip>
+            ))}
+          </View>
         </ScrollView>
       </View>
       {isFetchingCourses ? (
@@ -180,25 +202,31 @@ const CoursesView: React.FC<Props> = ({
                     fillStyle={styles.courseProgressBarFilled}
                   />
                 </View>
-                <View style={styles.courseAttribute}>
-                  <View style={styles.courseAttributeIcon}>
-                    {areLecturersPhotosFetching ||
-                    lecturersPhotos === undefined ? (
-                      <Image
-                        source={require('../../../assets/images/user-avatar-blank.png')}
-                        style={styles.lecturersPhoto}
-                      />
-                    ) : (
-                      <Image
-                        source={{uri: lecturersPhotos[course.lecturers[0].id]}}
-                        style={styles.lecturersPhoto}
-                      />
-                    )}
+                {course.lecturers.length > 0 ? (
+                  <View style={styles.courseAttribute}>
+                    <View style={styles.courseAttributeIcon}>
+                      {areLecturersPhotosFetching ||
+                      lecturersPhotos === undefined ? (
+                        <Image
+                          source={require('../../../assets/images/user-avatar-blank.png')}
+                          style={styles.lecturersPhoto}
+                        />
+                      ) : (
+                        <Image
+                          source={{
+                            uri: lecturersPhotos[course.lecturers[0].id],
+                          }}
+                          style={styles.lecturersPhoto}
+                        />
+                      )}
+                    </View>
+                    <Text style={styles.courseAttributeText}>
+                      {`${course.lecturers[0].firstName} ${course.lecturers[0].lastName}`}
+                    </Text>
                   </View>
-                  <Text style={styles.courseAttributeText}>
-                    {`${course.lecturers[0].firstName} ${course.lecturers[0].lastName}`}
-                  </Text>
-                </View>
+                ) : (
+                  <View style={{paddingVertical: 12}} />
+                )}
                 <View style={styles.classTypeContainer}>
                   <Text style={styles.classTypeText}>
                     {course.classType.id}
