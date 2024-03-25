@@ -19,7 +19,11 @@ const GradesContainer: React.FC = () => {
         moment(term.endDate).startOf('day').isAfter(moment().startOf('day')),
     )[0];
 
-    setSelectedTerm(currentTerm);
+    if (currentTerm) {
+      setSelectedTerm(currentTerm);
+    } else {
+      setSelectedTerm(terms ? terms[0] : undefined);
+    }
   }, [terms]);
 
   const {
