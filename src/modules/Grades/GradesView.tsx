@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Chip, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
@@ -42,6 +42,7 @@ const GradesView: React.FC<Props> = ({
 
   const [openedGrade, setOpenedGrade] = useState<string>();
 
+  const termsScrollView = useRef<ScrollView>();
   const gradesScrollView = useRef<ScrollView>();
 
   const openGrade = (unitId: string, index: number) => {
@@ -51,13 +52,36 @@ const GradesView: React.FC<Props> = ({
 
   const closeGrade = () => setOpenedGrade(undefined);
 
+  useEffect(() => {
+    const coordinates: {[termId: string]: number} = {};
+    coordinates[terms[0].id] = 0;
+    terms.forEach((term, index) => {
+      if (index > 0) {
+        coordinates[term.id] =
+          coordinates[terms[index - 1].id] + term.name.length * 9;
+      }
+    });
+
+    if (selectedTerm) {
+      termsScrollView.current?.scrollTo({
+        x: coordinates[selectedTerm?.id],
+        y: 0,
+        animated: true,
+      });
+    }
+  }, [terms, selectedTerm, termsScrollView]);
+
   return (
     <View style={styles.container}>
       <View>
         <Text variant="headlineMedium" style={styles.headerTitle}>
           {t('Your grades')}
         </Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          ref={termsScrollView}
+          horizontal
+          persistentScrollbar
+          showsHorizontalScrollIndicator={false}>
           <View style={styles.termsContainer}>
             {terms.map(term => (
               <Chip

@@ -3,7 +3,9 @@ import {Text} from 'react-native-paper';
 import styles from './styles';
 import {TouchableOpacity, View} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import 'moment/locale/pl';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   chosenDate: Date;
@@ -11,6 +13,9 @@ interface Props {
 }
 
 const SingleDatePicker: React.FC<Props> = ({chosenDate, onPickDate}) => {
+  const {i18n} = useTranslation();
+  moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
+
   const toStartLetterUppercase = (str: string) =>
     str[0].toUpperCase() + str.slice(1);
 
@@ -52,9 +57,7 @@ const SingleDatePicker: React.FC<Props> = ({chosenDate, onPickDate}) => {
             ]}>
             {toStartLetterUppercase(moment(d).format('DD'))}
           </Text>
-          {isActive(d) ? (
-            <View style={styles.activeDateIndicator}></View>
-          ) : null}
+          {isActive(d) ? <View style={styles.activeDateIndicator} /> : null}
         </TouchableOpacity>
       ))}
     </View>
