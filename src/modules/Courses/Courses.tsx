@@ -15,7 +15,11 @@ const CoursesContainer: React.FC = () => {
   useEffect(() => {
     const currentTerm = getCurrentTerm(terms);
 
-    setSelectedTerm(currentTerm);
+    if (currentTerm) {
+      setSelectedTerm(currentTerm);
+    } else {
+      setSelectedTerm(terms ? terms[0] : undefined);
+    }
   }, [terms]);
 
   const getCurrentTerm = (availableTerms: Term[] | undefined) =>
@@ -48,7 +52,11 @@ const CoursesContainer: React.FC = () => {
   );
 
   const getLecturersIds = (): string[] => {
-    return courses?.map(course => course.lecturers[0].id) ?? [];
+    return (
+      courses
+        ?.map(course => course.lecturers[0]?.id)
+        .filter(id => id !== undefined) ?? []
+    );
   };
 
   const {

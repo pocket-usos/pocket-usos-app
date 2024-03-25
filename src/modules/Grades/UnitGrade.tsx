@@ -8,6 +8,8 @@ import {TermCourseUnit} from '@modules/Grades/Model/TermGrades.ts';
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
 import {BarChart} from 'react-native-gifted-charts';
 import moment from 'moment';
+import 'moment/locale/en-gb';
+import 'moment/locale/pl';
 import {useGetGradesDistributionQuery} from '@modules/Grades/api.ts';
 
 interface Props {
@@ -26,7 +28,9 @@ const UnitGrade: React.FC<Props> = ({
   close,
 }) => {
   const theme = useAppTheme();
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
+  moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
+
   const lastGrade =
     unit.grades.slice(-1).length > 0 ? unit.grades.slice(-1)[0] : null;
 
@@ -133,13 +137,17 @@ const UnitGrade: React.FC<Props> = ({
           <View style={styles.gradeDetailsRow}>
             <Text style={styles.gradeDetailsLabel}>{t('Given at')}</Text>
             <Text style={styles.gradeDetailsValue}>
-              {moment(lastGrade?.modifiedAt).format('YYYY-MM-DD HH:mm')}
+              {lastGrade?.modifiedAt
+                ? moment(lastGrade?.modifiedAt).format('YYYY-MM-DD HH:mm')
+                : '-'}
             </Text>
           </View>
           <View style={styles.gradeDetailsRow}>
             <Text style={styles.gradeDetailsLabel}>{t('Given by')}</Text>
             <Text style={styles.gradeDetailsValue}>
-              {`${lastGrade?.modifiedBy.firstName} ${lastGrade?.modifiedBy.lastName}`}
+              {lastGrade?.modifiedBy
+                ? `${lastGrade.modifiedBy.firstName} ${lastGrade.modifiedBy.lastName}`
+                : '-'}
             </Text>
           </View>
           <Text style={styles.gradesDistributionLabel}>

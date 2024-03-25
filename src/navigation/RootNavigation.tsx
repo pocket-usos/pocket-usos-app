@@ -10,11 +10,14 @@ import {
   stopAuthentication,
 } from '@modules/Authentication/state.ts';
 import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
+import NetworkError from '@modules/Errors/NetworkError.tsx';
+import ServerConnectionError from '@modules/Errors/ServerConnectionError.tsx';
 
 const RootNavigation: React.FC = () => {
   const {isAuthenticated} = useSelector(
     (state: RootState) => state.authentication,
   );
+  const {error} = useSelector((state: RootState) => state.error);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,6 +33,14 @@ const RootNavigation: React.FC = () => {
 
     initialise();
   }, [dispatch]);
+
+  if (error && error.type === 'network') {
+    return <NetworkError />;
+  }
+
+  if (error && error.type === 'server') {
+    return <ServerConnectionError />;
+  }
 
   return (
     <NavigationContainer>

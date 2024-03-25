@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Chip, Text} from 'react-native-paper';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
@@ -42,6 +42,7 @@ const GradesView: React.FC<Props> = ({
 
   const [openedGrade, setOpenedGrade] = useState<string>();
 
+  const termsScrollView = useRef<ScrollView>();
   const gradesScrollView = useRef<ScrollView>();
 
   const openGrade = (unitId: string, index: number) => {
@@ -51,6 +52,25 @@ const GradesView: React.FC<Props> = ({
 
   const closeGrade = () => setOpenedGrade(undefined);
 
+  useEffect(() => {
+    const coordinates: {[termId: string]: number} = {};
+    coordinates[terms[0].id] = 0;
+    terms.forEach((term, index) => {
+      if (index > 0) {
+        coordinates[term.id] =
+          coordinates[terms[index - 1].id] + term.name.length * 9;
+      }
+    });
+
+    if (selectedTerm) {
+      termsScrollView.current?.scrollTo({
+        x: coordinates[selectedTerm?.id],
+        y: 0,
+        animated: true,
+      });
+    }
+  }, [terms, selectedTerm, termsScrollView]);
+
   return (
     <View style={styles.container}>
       <View>
@@ -58,23 +78,26 @@ const GradesView: React.FC<Props> = ({
           {t('Your grades')}
         </Text>
         <ScrollView
+          ref={termsScrollView}
           horizontal
-          style={styles.terms}
+          persistentScrollbar
           showsHorizontalScrollIndicator={false}>
-          {terms.map(term => (
-            <Chip
-              key={term.id}
-              style={[
-                styles.term,
-                term.id === selectedTerm?.id ? styles.selectedTerm : null,
-              ]}
-              textStyle={styles.termText}
-              selected={term.id === selectedTerm?.id}
-              selectedColor={theme.colors.neutral.white}
-              onPress={() => onTermSelect(term)}>
-              {term.name}
-            </Chip>
-          ))}
+          <View style={styles.termsContainer}>
+            {terms.map(term => (
+              <Chip
+                key={term.id}
+                style={[
+                  styles.term,
+                  term.id === selectedTerm?.id ? styles.selectedTerm : null,
+                ]}
+                textStyle={styles.termText}
+                selected={term.id === selectedTerm?.id}
+                selectedColor={theme.colors.neutral.white}
+                onPress={() => onTermSelect(term)}>
+                {term.name}
+              </Chip>
+            ))}
+          </View>
         </ScrollView>
       </View>
       {isFetchingGrades ? (
@@ -101,39 +124,41 @@ const GradesView: React.FC<Props> = ({
                 />
               }
               style={styles.gradesContainer}>
-              {availableCourseGrades?.map((course, index) => (
-                <View key={course.id}>
-                  {course.units.map(unit => (
-                    <UnitGrade
-                      key={unit.id}
-                      unit={unit}
-                      courseName={course.name}
-                      isOpened={openedGrade === unit.id}
-                      open={(unitId: string) => openGrade(unitId, index)}
-                      close={closeGrade}
-                    />
-                  ))}
-                </View>
-              ))}
-              {nonAvailableCourseGrades?.map((course, index) => (
-                <View key={course.id}>
-                  {course.units.map(unit => (
-                    <UnitGrade
-                      key={unit.id}
-                      unit={unit}
-                      courseName={course.name}
-                      isOpened={openedGrade === unit.id}
-                      open={(unitId: string) =>
-                        openGrade(
-                          unitId,
-                          index + (availableCourseGrades?.length ?? 0),
-                        )
-                      }
-                      close={closeGrade}
-                    />
-                  ))}
-                </View>
-              ))}
+              <View style={styles.gradesInnerContainer}>
+                {availableCourseGrades?.map((course, index) => (
+                  <View key={course.id}>
+                    {course.units.map(unit => (
+                      <UnitGrade
+                        key={unit.id}
+                        unit={unit}
+                        courseName={course.name}
+                        isOpened={openedGrade === unit.id}
+                        open={(unitId: string) => openGrade(unitId, index)}
+                        close={closeGrade}
+                      />
+                    ))}
+                  </View>
+                ))}
+                {nonAvailableCourseGrades?.map((course, index) => (
+                  <View key={course.id}>
+                    {course.units.map(unit => (
+                      <UnitGrade
+                        key={unit.id}
+                        unit={unit}
+                        courseName={course.name}
+                        isOpened={openedGrade === unit.id}
+                        open={(unitId: string) =>
+                          openGrade(
+                            unitId,
+                            index + (availableCourseGrades?.length ?? 0),
+                          )
+                        }
+                        close={closeGrade}
+                      />
+                    ))}
+                  </View>
+                ))}
+              </View>
             </ScrollView>
           )}
         </View>

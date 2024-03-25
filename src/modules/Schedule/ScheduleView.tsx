@@ -15,6 +15,7 @@ import {
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
 import {default as IonIcon} from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import 'moment/locale/en-gb';
 import 'moment/locale/pl';
 import SingleDatePicker from '@modules/Schedule/SingleDatePicker/SingleDatePicker.tsx';
 import {configureCalendarLocale} from '../../../translations/calendarLocaleConfig.ts';
@@ -43,6 +44,7 @@ const ScheduleView: React.FC<Props> = ({
 }) => {
   const theme = useAppTheme();
   const {t, i18n} = useTranslation();
+  moment.updateLocale(i18n.resolvedLanguage ?? 'en', {week: {dow: 1}});
   const navigation = useNavigation();
 
   const [calendarDatePickerVisible, setCalendarDatePickerVisible] =
@@ -55,13 +57,25 @@ const ScheduleView: React.FC<Props> = ({
   const isToday = () =>
     moment(chosenDate).startOf('day').isSame(moment().startOf('day'));
 
-  const chosenMonthAndDay = moment(chosenDate).format('MMMM DD');
+  const chosenMonthAndDay = moment(chosenDate)
+    .format('LL')
+    .replace(/\d{4}/, '')
+    .replace(',', '')
+    .trim();
   const chosenDayOfWeek = isToday()
     ? t('Today')
     : moment(chosenDate).startOf('day').format('dddd');
 
   const toStartLetterUppercase = (str: string) =>
     str[0].toUpperCase() + str.slice(1);
+
+  const toFirstLetterUppercase = (str: string) => {
+    const strings = str.split(' ');
+
+    const capitalizedStrings = strings.map(s => toStartLetterUppercase(s));
+
+    return capitalizedStrings.join(' ');
+  };
 
   const getScheduleMinHour = (scheduleForDay: CalendarItem[]) => {
     const startHours = scheduleForDay?.map(item => moment(item.start).hour());
@@ -103,7 +117,7 @@ const ScheduleView: React.FC<Props> = ({
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.chosenDate}>
-          {toStartLetterUppercase(chosenMonthAndDay)}
+          {toFirstLetterUppercase(chosenMonthAndDay)}
         </Text>
         <View style={styles.header}>
           <Text
@@ -147,6 +161,7 @@ const ScheduleView: React.FC<Props> = ({
             scrollViewProps={{horizontal: false}}
             width={Dimensions.get('screen').width - SafeAreaPadding * 2}
             style={{
+              container: styles.timetableContainer,
               lines: styles.timetableLines,
               time: styles.timetableTimeText,
               nowLine: {

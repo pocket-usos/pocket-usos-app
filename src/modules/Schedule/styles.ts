@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     paddingVertical: 16,
   },
+  timetableContainer: {
+    paddingBottom: 36,
+  },
   timetableView: {
     paddingHorizontal: SafeAreaPadding,
     marginTop: 36,
