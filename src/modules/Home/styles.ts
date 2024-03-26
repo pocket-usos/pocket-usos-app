@@ -20,8 +20,17 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginRight: 12,
   },
-  menuButton: {
+  notificationsButton: {
     marginLeft: 'auto',
+  },
+  notificationsBadge: {
+    backgroundColor: theme.colors.additional.red,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+  menuButton: {
+    marginLeft: 12,
   },
   menuButtonIcon: {
     width: 28,

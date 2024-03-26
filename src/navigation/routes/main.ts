@@ -4,6 +4,7 @@ import Grades from '@modules/Grades/Grades';
 import Courses from '@modules/Courses/Courses';
 import SingleCourse from '@modules/Courses/SingleCourse/SingleCourse';
 import LecturerDetails from '@modules/Users/LecturerDetails/LecturerDetails';
+import Notifications from '@modules/Notification/Notifications.tsx';
 
 const main = {
   home: {
@@ -29,6 +30,10 @@ const main = {
   lecturerDetails: {
     name: 'LecturerDetails',
     component: LecturerDetails,
+  },
+  notifications: {
+    name: 'Notifications',
+    component: Notifications,
   },
 };
 

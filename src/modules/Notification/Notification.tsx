@@ -3,7 +3,7 @@ import {Pressable, Text, Animated, View} from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import getStyles from './styles';
+import {getStyles} from './styles';
 import {NotificationType} from './state';
 import {useAppTheme} from '@styles/theme';
 

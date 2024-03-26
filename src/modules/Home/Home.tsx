@@ -4,6 +4,7 @@ import HomeView from '@modules/Home/HomeView';
 import {useGetProfileQuery} from '@modules/Users/api.ts';
 import {useGetMyScheduleQuery} from '@modules/Schedule/api';
 import moment from 'moment';
+import {useGetNotificationsQuery} from '@modules/Notification/api.ts';
 
 const HomeContainer: React.FC = () => {
   const [today] = useState(
@@ -25,6 +26,12 @@ const HomeContainer: React.FC = () => {
     days: 7,
   });
 
+  const {
+    data: notifications,
+    isFetching: isFetchingNotifications,
+    refetch: refetchNotifications,
+  } = useGetNotificationsQuery();
+
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(async () => {
@@ -32,6 +39,7 @@ const HomeContainer: React.FC = () => {
       setRefreshing(true);
       await refetchProfile();
       await refetchSchedule();
+      await refetchNotifications();
     } finally {
       setRefreshing(false);
     }
@@ -44,6 +52,9 @@ const HomeContainer: React.FC = () => {
         schedule={schedule}
         isRefreshing={refreshing}
         onRefresh={onRefresh}
+        unreadNotificationsCount={
+          notifications?.filter(n => !n.wasRead).length ?? 0
+        }
       />
     </LoadableScreenView>
   );
