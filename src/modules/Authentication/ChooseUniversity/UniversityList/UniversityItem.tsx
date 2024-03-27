@@ -17,6 +17,7 @@ const UniversityItem: React.FC<Props> = ({
   name,
   logoUrl,
   isChosen,
+  isBeta,
   onPress,
 }) => {
   const theme = useAppTheme();
@@ -28,6 +29,11 @@ const UniversityItem: React.FC<Props> = ({
         <Text variant="titleMedium" style={styles.itemText}>
           {name}
         </Text>
+        {isBeta && !isChosen ? (
+          <View style={styles.betaTag}>
+            <Text style={styles.betaTagLabel}>Beta</Text>
+          </View>
+        ) : null}
         {isChosen ? (
           <Icon
             name="check"
