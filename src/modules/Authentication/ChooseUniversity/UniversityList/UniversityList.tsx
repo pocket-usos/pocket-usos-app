@@ -1,12 +1,12 @@
 import React from 'react';
-import University from '../University';
 import {View} from 'react-native';
 import UniversityItem from '@modules/Authentication/ChooseUniversity/UniversityList/UniversityItem.tsx';
+import University from '@modules/Authentication/Model/University';
 
 export interface Props {
-  universities: University[];
-  chosenUniversityId: number | undefined;
-  onUniversityChoose: (universityId: number) => void;
+  universities?: University[];
+  chosenUniversityId: string | undefined;
+  onUniversityChoose: (universityId: string) => void;
 }
 
 const UniversityList: React.FC<Props> = ({
@@ -14,14 +14,19 @@ const UniversityList: React.FC<Props> = ({
   chosenUniversityId,
   onUniversityChoose,
 }) => {
+  if (universities === undefined) {
+    return null;
+  }
+
   return (
     <View>
-      {universities.map(u => (
+      {universities?.map(u => (
         <UniversityItem
           key={u.id}
           name={u.name}
-          icon={u.icon}
+          logoUrl={u.logoUrl}
           isChosen={u.id === chosenUniversityId}
+          isBeta={u.isBeta}
           onPress={() => onUniversityChoose(u.id)}
         />
       ))}

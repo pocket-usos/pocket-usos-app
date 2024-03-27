@@ -2,6 +2,9 @@ import {StyleSheet} from 'react-native';
 import theme from '@styles/theme';
 
 const styles = StyleSheet.create({
+  loader: {
+    paddingTop: 36,
+  },
   button: {
     borderRadius: 20,
     borderColor: theme.colors.primary,

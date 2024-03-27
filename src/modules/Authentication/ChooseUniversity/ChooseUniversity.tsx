@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import ChooseUniversityView from './ChooseUniversityView';
-import University from './University';
 import {
   useAuthenticateMutation,
+  useGetUniversitiesQuery,
   useInitialiseAuthenticationSessionMutation,
 } from '@modules/Authentication/api';
 import AuthenticationSessionInitialisationResponse from '../Response/AuthenticationSessionInitialisationResponse';
@@ -24,7 +24,7 @@ import {useTranslation} from 'react-i18next';
 
 const ChooseUniversityContainer: React.FC = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [chosenUniversityId, setChosenUniversityId] = useState<number>();
+  const [chosenUniversityId, setChosenUniversityId] = useState<string>();
   const dispatch = useDispatch();
   const {t} = useTranslation();
   const [initialiseAuthenticationSession, {isLoading: isInitialising}] =
@@ -35,17 +35,16 @@ const ChooseUniversityContainer: React.FC = () => {
     (state: RootState) => state.authentication,
   );
 
-  const universities: University[] = [
-    {
-      id: 1,
-      name: t('Vistula University'),
-      icon: require('../../../../assets/images/vistula-logo.png'),
-    },
-  ];
+  const {data: universities, isFetching: isFetchingUniversities} =
+    useGetUniversitiesQuery();
 
   const onSignIn = async () => {
+    if (chosenUniversityId === undefined) {
+      return;
+    }
+
     const response: Response<AuthenticationSessionInitialisationResponse> =
-      await initialiseAuthenticationSession();
+      await initialiseAuthenticationSession(chosenUniversityId);
 
     if (response.data) {
       const {sessionId, redirectUrl} = response.data;
@@ -121,13 +120,13 @@ const ChooseUniversityContainer: React.FC = () => {
       <ChooseUniversityView
         searchValue={searchValue}
         onSearchInput={(value: string) => setSearchValue(value)}
-        universities={universities.filter(
+        universities={universities?.filter(
           u =>
             u.name.toLowerCase().includes(searchValue.toLowerCase()) ||
             u.id === chosenUniversityId,
         )}
         chosenUniversityId={chosenUniversityId}
-        onUniversityChoose={(universityId: number) =>
+        onUniversityChoose={(universityId: string) =>
           setChosenUniversityId(universityId)
         }
         onSignInPress={onSignIn}
