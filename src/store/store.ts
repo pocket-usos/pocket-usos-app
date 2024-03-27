@@ -8,6 +8,7 @@ import scheduleApi from '@modules/Schedule/api.ts';
 import gradesApi from '@modules/Grades/api.ts';
 import coursesApi from '@modules/Courses/api.ts';
 import {ErrorHandlingMiddleware} from '../api/error-handling-middleware.ts';
+import notificationsApi from '@modules/Notification/api.ts';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     [scheduleApi.reducerPath]: scheduleApi.reducer,
     [gradesApi.reducerPath]: gradesApi.reducer,
     [coursesApi.reducerPath]: coursesApi.reducer,
+    [notificationsApi.reducerPath]: notificationsApi.reducer,
     authentication: authenticationReducer,
     notification: notificationReducer,
     error: errorReducer,
@@ -27,6 +29,7 @@ export const store = configureStore({
       scheduleApi.middleware,
       gradesApi.middleware,
       coursesApi.middleware,
+      notificationsApi.middleware,
       ErrorHandlingMiddleware,
     ]),
 });

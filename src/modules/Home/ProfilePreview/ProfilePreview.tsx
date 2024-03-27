@@ -3,7 +3,8 @@ import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import Profile from '@modules/Users/Model/Profile.ts';
 import {Image, Pressable, View} from 'react-native';
-import {Button, Dialog, Portal, Text} from 'react-native-paper';
+import {Badge, Button, Dialog, Portal, Text} from 'react-native-paper';
+import {default as MaterialIcon} from 'react-native-vector-icons/MaterialIcons';
 import styles from '../styles.ts';
 import BottomDrawer, {
   BottomDrawerMethods,
@@ -12,15 +13,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSignOutMutation} from '@modules/Authentication/api.ts';
 import {useDispatch} from 'react-redux';
 import {signOut as signOutAction} from '@modules/Authentication/state.ts';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   profile: Profile;
+  unreadNotificationsCount: number;
 }
 
-const ProfilePreview: React.FC<Props> = ({profile}) => {
+const ProfilePreview: React.FC<Props> = ({
+  profile,
+  unreadNotificationsCount,
+}) => {
   const theme = useAppTheme();
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const bottomDrawerRef = useRef<BottomDrawerMethods>(null);
   const [signOutDialogVisible, setSignOutDialogVisible] =
@@ -39,6 +46,8 @@ const ProfilePreview: React.FC<Props> = ({profile}) => {
     bottomDrawerRef?.current?.close();
     showSignOutDialog();
   };
+
+  const goToNotifications = () => navigation.navigate('Notifications');
 
   useEffect(() => {
     const removeSessionId = async () =>
@@ -70,6 +79,21 @@ const ProfilePreview: React.FC<Props> = ({profile}) => {
         </Text>
         <Text style={styles.studentNumber}>{`#${profile.studentNumber}`}</Text>
       </View>
+      <Pressable
+        style={styles.notificationsButton}
+        onPress={() => goToNotifications()}>
+        <MaterialIcon
+          name="notifications-none"
+          size={28}
+          color={theme.colors.neutral.black}
+        />
+        <Badge
+          size={16}
+          visible={unreadNotificationsCount > 0}
+          style={styles.notificationsBadge}>
+          {unreadNotificationsCount}
+        </Badge>
+      </Pressable>
       <Pressable
         style={styles.menuButton}
         onPress={() => bottomDrawerRef?.current?.open()}>

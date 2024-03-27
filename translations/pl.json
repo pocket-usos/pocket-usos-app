@@ -52,5 +52,8 @@
   "Ooops": "Ooops",
   "It seems something is wrong with your internet connection. Please connect to the internet and start PocketUSOS again.": "Wygląda na to, że coś jest nie tak z Twoim połączeniem internetowym. Proszę połącz się z internetem i ponownie uruchom PocketUSOS.",
   "It seems something is wrong with connection to our server. We are trying our best to fix it. Please try again later.": "Wygląda na to, że coś jest nie tak z połączeniem do naszego serwera. Robimy wszystko, co w naszej mocy, żeby to naprawić. Proszę spróbuj ponownie później.",
-  "Try again": "Spróbuj ponownie"
+  "Try again": "Spróbuj ponownie",
+  "Notifications": "Wiadomości",
+  "You don't have any notifications yet": "Jeszcze nie masz żadnych wiadomości",
+  "Yesterday": "Wczoraj"
 }

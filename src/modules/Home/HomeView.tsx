@@ -13,6 +13,7 @@ interface Props {
   schedule?: CalendarItem[];
   isRefreshing: boolean;
   onRefresh: () => void;
+  unreadNotificationsCount: number;
 }
 
 const HomeView: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const HomeView: React.FC<Props> = ({
   schedule,
   isRefreshing,
   onRefresh,
+  unreadNotificationsCount,
 }) => {
   return (
     <ScreenContainer>
@@ -31,7 +33,12 @@ const HomeView: React.FC<Props> = ({
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
         style={{backgroundColor: theme.colors.neutral.white}}>
-        {profile ? <ProfilePreview profile={profile} /> : null}
+        {profile ? (
+          <ProfilePreview
+            profile={profile}
+            unreadNotificationsCount={unreadNotificationsCount}
+          />
+        ) : null}
         <UpcomingClasses schedule={schedule} />
         <QuickActions />
       </ScrollView>

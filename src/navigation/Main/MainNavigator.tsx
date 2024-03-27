@@ -19,6 +19,7 @@ const MainStackScreen: React.FC = () => {
       <MainStack.Screen {...routes.main.courses} />
       <MainStack.Screen {...routes.main.singleCourse} />
       <MainStack.Screen {...routes.main.lecturerDetails} />
+      <MainStack.Screen {...routes.main.notifications} />
     </MainStack.Navigator>
   );
 };

@@ -156,7 +156,7 @@ const ScheduleView: React.FC<Props> = ({
           }>
           <Timetable
             fromHour={getScheduleMinHour(schedule)}
-            toHour={22}
+            toHour={21}
             hideNowLine={!isToday() || nowIsLowerThanScheduleMinHour(schedule)}
             scrollViewProps={{horizontal: false}}
             width={Dimensions.get('screen').width - SafeAreaPadding * 2}
