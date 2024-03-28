@@ -109,8 +109,25 @@ const ChooseUniversityContainer: React.FC = () => {
   useEffect(() => {
     const listener = Linking.addEventListener('url', handleUserRedirection);
 
+    const setChosenUniversity = async () => {
+      const chosenUniversityId = await AsyncStorage.getItem(
+        'chosenUniversityId',
+      );
+
+      if (chosenUniversityId) {
+        setChosenUniversityId(chosenUniversityId);
+      }
+    };
+
+    setChosenUniversity();
+
     return () => listener.remove();
   }, [handleUserRedirection]);
+
+  const onUniversityChoose = async (universityId: string) => {
+    await AsyncStorage.setItem('chosenUniversityId', universityId);
+    setChosenUniversityId(universityId);
+  };
 
   return (
     <LoadableScreenView
@@ -126,10 +143,9 @@ const ChooseUniversityContainer: React.FC = () => {
             u.id === chosenUniversityId,
         )}
         chosenUniversityId={chosenUniversityId}
-        onUniversityChoose={(universityId: string) =>
-          setChosenUniversityId(universityId)
-        }
+        onUniversityChoose={onUniversityChoose}
         onSignInPress={onSignIn}
+        isFetchingUniversities={isFetchingUniversities}
       />
     </LoadableScreenView>
   );
