@@ -6,22 +6,34 @@ import styles from './styles';
 import {useAppTheme} from '@styles/theme';
 
 export interface Props {
-  icon: any;
+  logoUrl: any;
   isChosen: boolean;
+  isBeta: boolean;
   name: string;
   onPress: () => void;
 }
 
-const UniversityItem: React.FC<Props> = ({name, icon, isChosen, onPress}) => {
+const UniversityItem: React.FC<Props> = ({
+  name,
+  logoUrl,
+  isChosen,
+  isBeta,
+  onPress,
+}) => {
   const theme = useAppTheme();
 
   return (
     <TouchableHighlight onPress={onPress} underlayColor="transparent">
       <View style={styles.item}>
-        <Image source={icon} style={styles.itemIcon} />
+        <Image source={{uri: logoUrl}} style={styles.itemIcon} />
         <Text variant="titleMedium" style={styles.itemText}>
           {name}
         </Text>
+        {isBeta && !isChosen ? (
+          <View style={styles.betaTag}>
+            <Text style={styles.betaTagLabel}>Beta</Text>
+          </View>
+        ) : null}
         {isChosen ? (
           <Icon
             name="check"
@@ -34,6 +46,5 @@ const UniversityItem: React.FC<Props> = ({name, icon, isChosen, onPress}) => {
     </TouchableHighlight>
   );
 };
-
 
 export default UniversityItem;
