@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {ActivityIndicator, Button, Text} from 'react-native-paper';
 import {ScrollView, View} from 'react-native';
 import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
@@ -9,6 +9,7 @@ import UniversityList from '@modules/Authentication/ChooseUniversity/UniversityL
 import UniversityMissing from '@modules/Authentication/ChooseUniversity/UniversityMissing/UniversityMissing.tsx';
 import styles from './styles';
 import University from '../Model/University';
+import UniversityItem from './UniversityList/UniversityItem';
 
 export interface Props {
   searchValue: string;
@@ -34,6 +35,25 @@ const ChooseUniversityView: React.FC<Props> = ({
 
   const isUniversityChosen = chosenUniversityId !== undefined;
 
+  const scrollView = useRef<ScrollView>();
+
+  useEffect(() => {
+    if (isUniversityChosen) {
+      const universityItemHeight = 48;
+      const chosenUniversityIndex = universities?.findIndex(
+        u => u.id === chosenUniversityId,
+      );
+
+      if (chosenUniversityIndex) {
+        scrollView.current?.scrollTo({
+          x: 0,
+          y: chosenUniversityIndex * universityItemHeight,
+          animated: true,
+        });
+      }
+    }
+  });
+
   return (
     <ScreenContainer>
       <Text
@@ -49,21 +69,26 @@ const ChooseUniversityView: React.FC<Props> = ({
         style={{marginVertical: 24}}
       />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {isFetchingUniversities ? (
-          <View style={styles.loader}>
-            <ActivityIndicator size="small" />
-          </View>
-        ) : (
-          <UniversityList
-            universities={universities}
-            chosenUniversityId={chosenUniversityId}
-            onUniversityChoose={onUniversityChoose}
-          />
-        )}
+      {isFetchingUniversities ? (
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" />
+        </View>
+      ) : (
+        <ScrollView ref={scrollView} showsVerticalScrollIndicator={false}>
+          {universities?.map(u => (
+            <UniversityItem
+              key={u.id}
+              name={u.name}
+              logoUrl={u.logoUrl}
+              isChosen={u.id === chosenUniversityId}
+              isBeta={u.isBeta}
+              onPress={() => onUniversityChoose(u.id)}
+            />
+          ))}
 
-        <UniversityMissing />
-      </ScrollView>
+          <UniversityMissing />
+        </ScrollView>
+      )}
 
       <Button
         mode="contained"

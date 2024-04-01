@@ -3,6 +3,8 @@ import theme from '@styles/theme';
 
 const styles = StyleSheet.create({
   loader: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
     paddingTop: 36,
   },
   button: {
