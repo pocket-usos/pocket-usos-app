@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   averageGradeLabel: {
     color: theme.colors.neutral.white,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
     paddingHorizontal: 8,
   },
