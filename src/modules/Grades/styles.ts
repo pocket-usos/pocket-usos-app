@@ -7,10 +7,41 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     paddingTop: SafeAreaTopPadding,
   },
-  headerTitle: {
-    color: theme.colors.neutral.black,
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: SafeAreaPadding,
     marginBottom: SafeAreaPadding,
+  },
+  headerTitle: {
+    color: theme.colors.neutral.black,
+  },
+  averageGradeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 14,
+    padding: 4,
+  },
+  averageGradeLabel: {
+    color: theme.colors.neutral.white,
+    fontSize: 12,
+    fontWeight: '700',
+    paddingHorizontal: 8,
+  },
+  averageGradeValueContainer: {
+    backgroundColor: theme.colors.neutral.white,
+    borderRadius: 10,
+    padding: 8,
+    minWidth: 35,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  averageGradeValue: {
+    color: theme.colors.neutral.black,
+    fontSize: 12,
+    fontWeight: '500',
   },
   termsContainer: {
     paddingHorizontal: SafeAreaPadding,
