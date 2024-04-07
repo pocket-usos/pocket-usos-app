@@ -71,12 +71,48 @@ const GradesView: React.FC<Props> = ({
     }
   }, [terms, selectedTerm, termsScrollView]);
 
+  const getGradeBackgroudColor = (grade?: number): string => {
+    if (grade === undefined || grade === 0) {
+      return theme.colors.neutral['500'];
+    }
+
+    if (grade >= 4) {
+      return theme.colors.additional.green;
+    }
+
+    if (grade >= 3) {
+      return theme.colors.additional.yellow;
+    }
+
+    if (grade >= 2) {
+      return theme.colors.additional.red;
+    }
+
+    return theme.colors.additional.red;
+  };
+
   return (
     <View style={styles.container}>
       <View>
-        <Text variant="headlineMedium" style={styles.headerTitle}>
-          {t('Your grades')}
-        </Text>
+        <View style={styles.header}>
+          <Text variant="headlineMedium" style={styles.headerTitle}>
+            {t('Your grades')}
+          </Text>
+          <View
+            style={[
+              styles.averageGradeContainer,
+              {backgroundColor: getGradeBackgroudColor(grades?.averageGrade)},
+            ]}>
+            <Text style={styles.averageGradeLabel}>{t('AVG')}</Text>
+            <View style={styles.averageGradeValueContainer}>
+              <Text style={styles.averageGradeValue}>
+                {grades?.averageGrade && grades?.averageGrade !== 0
+                  ? grades.averageGrade
+                  : '-'}
+              </Text>
+            </View>
+          </View>
+        </View>
         <ScrollView
           ref={termsScrollView}
           horizontal
