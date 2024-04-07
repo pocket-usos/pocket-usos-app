@@ -14,6 +14,7 @@ import {useSignOutMutation} from '@modules/Authentication/api.ts';
 import {useDispatch} from 'react-redux';
 import {signOut as signOutAction} from '@modules/Authentication/state.ts';
 import {useNavigation} from '@react-navigation/native';
+import LanguageSelector from '@components/LanguageSelector/LanguageSelector.tsx';
 
 interface Props {
   profile: Profile;
@@ -110,6 +111,7 @@ const ProfilePreview: React.FC<Props> = ({
           container: styles.bottomDrawer,
         }}>
         <View>
+          <LanguageSelector />
           <Button
             mode="outlined"
             style={styles.signOutButton}
