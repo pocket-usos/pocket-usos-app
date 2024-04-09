@@ -21,7 +21,7 @@ interface ClassType {
   name: string;
 }
 
-interface SessionGrade {
+export interface SessionGrade {
   sessionNumber: string;
   examId: string;
   grade: string;
