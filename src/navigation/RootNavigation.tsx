@@ -12,6 +12,10 @@ import {
 import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
 import NetworkError from '@modules/Errors/NetworkError.tsx';
 import ServerConnectionError from '@modules/Errors/ServerConnectionError.tsx';
+import {OneSignal} from 'react-native-onesignal';
+import Config from 'react-native-config';
+import {useTranslation} from 'react-i18next';
+import {useLazyGetOneSignalExternalIdQuery} from '@modules/Notification/api';
 
 const RootNavigation: React.FC = () => {
   const {isAuthenticated} = useSelector(
@@ -19,6 +23,8 @@ const RootNavigation: React.FC = () => {
   );
   const {error} = useSelector((state: RootState) => state.error);
   const dispatch = useDispatch();
+  const [getExternalId] = useLazyGetOneSignalExternalIdQuery();
+  const {i18n} = useTranslation();
 
   useEffect(() => {
     const initialise = async () => {
@@ -28,6 +34,16 @@ const RootNavigation: React.FC = () => {
         dispatch(authenticate());
       } else {
         dispatch(stopAuthentication());
+      }
+
+      const {id: externalId} = await getExternalId().unwrap();
+
+      if (externalId) {
+        OneSignal.initialize(Config.ONESIGNAL_APP_ID);
+        OneSignal.Notifications.requestPermission(true);
+
+        OneSignal.User.setLanguage(i18n.resolvedLanguage ?? 'en');
+        OneSignal.login(externalId);
       }
     };
 
