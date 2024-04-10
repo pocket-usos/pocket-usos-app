@@ -73,8 +73,10 @@ const styles = StyleSheet.create({
   },
   noNotificationsText: {
     fontSize: 18,
+    lineHeight: 28,
     color: theme.colors.neutral['700'],
     fontWeight: '500',
+    textAlign: 'center',
   },
   notification: {
     flexDirection: 'row',

@@ -9,6 +9,12 @@ export const notificationsApi = pocketUsosApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getOneSignalExternalId: builder.query<{id: string}, void>({
+      query: () => ({
+        url: 'notifications/external-id',
+        method: 'GET',
+      }),
+    }),
     readNotifications: builder.mutation<void, string[]>({
       query: notificationIds => ({
         url: 'notifications/read',
@@ -22,5 +28,8 @@ export const notificationsApi = pocketUsosApi.injectEndpoints({
 });
 
 export default notificationsApi;
-export const {useGetNotificationsQuery, useReadNotificationsMutation} =
-  notificationsApi;
+export const {
+  useGetNotificationsQuery,
+  useReadNotificationsMutation,
+  useLazyGetOneSignalExternalIdQuery,
+} = notificationsApi;
