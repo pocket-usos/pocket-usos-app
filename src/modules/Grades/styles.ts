@@ -156,6 +156,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  gradeDetailsControls: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  gradeDetailsControl: {
+    paddingHorizontal: 8,
+  },
+  gradeDetailsControlsLabel: {
+    color: theme.colors.neutral.black,
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });
 
 export default styles;
