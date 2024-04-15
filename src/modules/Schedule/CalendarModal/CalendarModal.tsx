@@ -33,6 +33,7 @@ const CalendarModal: React.FC<Props> = ({
     <Portal>
       <Modal visible={isVisible} onDismiss={hide} style={styles.calendarModal}>
         <Calendar
+          initialDate={moment(chosenDate).format()}
           firstDay={1}
           style={styles.calendar}
           onDayPress={date => {

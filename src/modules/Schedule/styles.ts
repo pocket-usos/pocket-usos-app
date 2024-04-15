@@ -32,6 +32,18 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     letterSpacing: 1,
   },
+  goToTodayButton: {
+    borderRadius: 12,
+    borderColor: theme.colors.primary,
+    marginRight: 16,
+  },
+  goToTodayButtonContent: {
+    paddingHorizontal: 8,
+  },
+  goToTodayButtonLabel: {
+    fontSize: 12,
+    lineHeight: 12,
+  },
   calendarModal: {
     marginHorizontal: SafeAreaPadding,
   },
@@ -44,7 +56,7 @@ const styles = StyleSheet.create({
   },
   timetableView: {
     paddingHorizontal: SafeAreaPadding,
-    marginTop: 36,
+    marginTop: 16,
   },
   timetableLines: {
     borderColor: theme.colors.neutral['300'],
