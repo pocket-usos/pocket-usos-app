@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
     fontSize: 18,
     fontWeight: '600',
+    maxWidth: Dimensions.get('screen').width - SafeAreaPadding * 2 - 58,
   },
   lecturerPhoto: {
     width: 50,
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: theme.colors.neutral.white,
     letterSpacing: 1.1,
+    maxWidth: Dimensions.get('screen').width - SafeAreaPadding * 2 - 58,
   },
   backButton: {
     flexDirection: 'row',

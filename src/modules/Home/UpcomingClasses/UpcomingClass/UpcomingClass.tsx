@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {Text} from 'react-native-paper';
 import styles from '../../styles.ts';
 import {default as FontAwesomeIcon} from 'react-native-vector-icons/FontAwesome6';
@@ -17,6 +17,7 @@ interface Props {
   classType: string;
   room: string;
   lecturerName: string;
+  onPress: () => void;
 }
 
 const UpcomingClass: React.FC<Props> = props => {
@@ -30,7 +31,7 @@ const UpcomingClass: React.FC<Props> = props => {
   ).format('HH:mm')}`;
 
   return (
-    <View style={styles.upcommingClass}>
+    <Pressable style={styles.upcommingClass} onPress={props.onPress}>
       <Text variant="titleMedium" style={styles.upcommingClassTitle}>
         {props.title.split(' - ')[0]}
       </Text>
@@ -68,7 +69,7 @@ const UpcomingClass: React.FC<Props> = props => {
       <View style={styles.classTypeContainer}>
         <Text style={styles.classTypeText}>{props.classType}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

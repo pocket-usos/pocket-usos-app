@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
@@ -92,10 +92,11 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.black,
     fontWeight: '500',
     marginBottom: 4,
-    maxWidth: '90%',
+    maxWidth: Dimensions.get('screen').width - SafeAreaPadding * 2 - 100,
   },
   lecturerEmail: {
     fontSize: 12,
+    maxWidth: Dimensions.get('screen').width - SafeAreaPadding * 2 - 100,
     color: theme.colors.neutral['700'],
   },
   sendEmailButton: {
