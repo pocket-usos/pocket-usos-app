@@ -1,10 +1,12 @@
 import React from 'react';
 import {View} from 'react-native';
-import {Text, Button} from 'react-native-paper';
+import {Text} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
 import styles from '../styles.ts';
 import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
 import UpcomingClass from '@modules/Home/UpcomingClasses/UpcomingClass/UpcomingClass.tsx';
+import {useNavigation} from '@react-navigation/native';
+import theme from '@styles/theme.ts';
 
 interface Props {
   schedule?: CalendarItem[];
@@ -12,6 +14,27 @@ interface Props {
 
 const UpcomingClassesView: React.FC<Props> = ({schedule}) => {
   const {t} = useTranslation();
+  const navigation = useNavigation();
+
+  const goToCourseScreen = (
+    courseId: string,
+    courseUnitId: number,
+    color: string,
+  ) => {
+    navigation.navigate('SingleCourse', {
+      courseId,
+      courseUnitId: courseUnitId.toString(),
+      color,
+      previousScreen: 'Home',
+    });
+  };
+
+  const onPress = (calendarItem: CalendarItem) =>
+    goToCourseScreen(
+      calendarItem.courseId,
+      calendarItem.courseUnitId,
+      theme.colors.primary,
+    );
 
   return (
     <View style={styles.upcomingClasses}>
@@ -31,6 +54,7 @@ const UpcomingClassesView: React.FC<Props> = ({schedule}) => {
               lecturerName={
                 item.lecturers[0].firstName + ' ' + item.lecturers[0].lastName
               }
+              onPress={() => onPress(item)}
             />
           ))}
         </View>
