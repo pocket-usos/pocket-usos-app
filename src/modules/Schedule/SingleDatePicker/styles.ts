@@ -3,9 +3,22 @@ import theme from '@styles/theme';
 
 const styles = StyleSheet.create({
   datePicker: {
+    marginBottom: 16,
+  },
+  datePickerWeek: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 12.5,
+  },
+  datePickerPreviousControl: {
+    position: 'absolute',
+    left: -14,
+    top: 12,
+  },
+  datePickerNextControl: {
+    position: 'absolute',
+    right: -14,
+    top: 12,
   },
   item: {
     flex: 1,

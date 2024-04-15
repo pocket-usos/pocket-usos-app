@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ActivityIndicator, Text} from 'react-native-paper';
+import {ActivityIndicator, Button, Text} from 'react-native-paper';
 import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import styles from './styles';
@@ -126,6 +126,17 @@ const ScheduleView: React.FC<Props> = ({
             {toStartLetterUppercase(chosenDayOfWeek)}
           </Text>
           <View style={styles.headerActions}>
+            {!isToday() ? (
+              <Button
+                mode="outlined"
+                compact
+                style={styles.goToTodayButton}
+                contentStyle={styles.goToTodayButtonContent}
+                labelStyle={styles.goToTodayButtonLabel}
+                onPress={() => onChooseDate(moment().toDate())}>
+                {t('Today')}
+              </Button>
+            ) : null}
             <TouchableOpacity
               style={styles.headerAction}
               onPress={showCalendarPicker}>
