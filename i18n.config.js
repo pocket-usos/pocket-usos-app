@@ -20,7 +20,7 @@ i18n
     compatibilityJSON: 'v4',
     resources,
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false,

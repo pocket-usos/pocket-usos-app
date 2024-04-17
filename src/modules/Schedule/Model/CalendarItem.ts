@@ -10,6 +10,11 @@ interface CalendarItem {
   room: Room;
 }
 
+export interface Day {
+  schedule: CalendarItem[];
+  date: Date;
+}
+
 interface ClassType {
   id: string;
   name: string;
