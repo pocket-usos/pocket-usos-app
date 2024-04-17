@@ -1,10 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import LoadableScreenView from '@components/LoadableScreenView/LoadableScreenView.tsx';
 import ScheduleView from '@modules/Schedule/ScheduleView';
-import moment from 'moment';
+import moment, {Moment} from 'moment';
 import {useGetMyScheduleQuery, useLazyGetMyScheduleQuery} from './api';
 import CalendarItem, {Day} from './Model/CalendarItem';
-import {refresh} from '@react-native-community/netinfo';
 
 const ScheduleContainer: React.FC = () => {
   const [chosenDate, chooseDate] = useState(moment().startOf('day').toDate());
@@ -17,8 +16,8 @@ const ScheduleContainer: React.FC = () => {
     refetch,
   } = useGetMyScheduleQuery(
     {
-      start: moment(chosenDate).subtract(1, 'day').toDate(),
-      days: 3,
+      start: moment(chosenDate).weekday(0).toDate(),
+      days: 7,
     },
     {skip: days !== undefined && days.length > 0 && !refetchingSchedule},
   );
@@ -42,31 +41,24 @@ const ScheduleContainer: React.FC = () => {
   const scheduleCarousel = useRef(null);
 
   const getInitialSchedule = (schedule: CalendarItem[]): Day[] => {
-    const days: Day[] = [];
-
     const chosenDay = moment(chosenDate);
-    const previousDay = moment(chosenDay).subtract(1, 'day');
-    const nextDay = moment(chosenDay).add(1, 'day');
+    const monday = moment(chosenDay).weekday(0);
 
-    const previousDaySchedule = schedule.filter(
-      s =>
-        moment(s.start).format('YYYY-MM-DD') ===
-        previousDay.format('YYYY-MM-DD'),
-    );
-    const chosenDaySchedule = schedule.filter(
-      s =>
-        moment(s.start).format('YYYY-MM-DD') === chosenDay.format('YYYY-MM-DD'),
-    );
-    const nextDaySchedule = schedule.filter(
-      s =>
-        moment(s.start).format('YYYY-MM-DD') === nextDay.format('YYYY-MM-DD'),
-    );
+    const dates: Moment[] = [];
 
-    return [
-      {schedule: previousDaySchedule, date: previousDay.toDate()},
-      {schedule: chosenDaySchedule, date: chosenDay.toDate()},
-      {schedule: nextDaySchedule, date: nextDay.toDate()},
-    ];
+    for (let daysCount = 0; daysCount < 7; daysCount++) {
+      dates.push(moment(monday).add(daysCount, 'd'));
+    }
+
+    return dates.map(date => {
+      return {
+        schedule: schedule.filter(
+          s =>
+            moment(s.start).format('YYYY-MM-DD') === date.format('YYYY-MM-DD'),
+        ),
+        date: date.toDate(),
+      };
+    });
   };
 
   useEffect(() => {
@@ -83,39 +75,6 @@ const ScheduleContainer: React.FC = () => {
 
     const newChosenDate = days[index].date;
     chooseDate(newChosenDate);
-
-    if (index === 0) {
-      const previousDayDate: Date = moment(newChosenDate)
-        .subtract(1, 'day')
-        .toDate();
-      const previousDaySchedule: CalendarItem[] = await getScheduleForDay({
-        start: previousDayDate,
-        days: 1,
-      }).unwrap();
-
-      const oldDays = [...days];
-      oldDays.splice(-1);
-
-      setDays([
-        {schedule: previousDaySchedule, date: previousDayDate},
-        ...oldDays,
-      ]);
-      scheduleCarousel.current?.snapToItem(1, false);
-    }
-
-    if (index === days.length - 1) {
-      const nextDayDate: Date = moment(newChosenDate).add(1, 'day').toDate();
-      const nextDaySchedule: CalendarItem[] = await getScheduleForDay({
-        start: nextDayDate,
-        days: 1,
-      }).unwrap();
-
-      const oldDays = [...days];
-      oldDays.shift();
-
-      setDays([...oldDays, {schedule: nextDaySchedule, date: nextDayDate}]);
-      scheduleCarousel.current?.snapToItem(1, false);
-    }
   };
 
   const onChooseDate = (date: Date) => {

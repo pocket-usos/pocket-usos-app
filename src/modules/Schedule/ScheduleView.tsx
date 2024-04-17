@@ -170,7 +170,11 @@ const ScheduleView: React.FC<Props> = ({
           loop={false}
           sliderWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
           itemWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
-          firstItem={1}
+          firstItem={days.findIndex(
+            day =>
+              moment(day.date).format('YYYY-MM-DD') ===
+              moment(chosenDate).format('YYYY-MM-DD'),
+          )}
           onSnapToItem={onSnapToDay}
           lockScrollWhileSnapping
           data={days}
