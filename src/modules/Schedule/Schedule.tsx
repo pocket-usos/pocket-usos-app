@@ -2,39 +2,31 @@ import React, {useEffect, useRef, useState} from 'react';
 import LoadableScreenView from '@components/LoadableScreenView/LoadableScreenView.tsx';
 import ScheduleView from '@modules/Schedule/ScheduleView';
 import moment, {Moment} from 'moment';
-import {useGetMyScheduleQuery, useLazyGetMyScheduleQuery} from './api';
+import {useGetMyScheduleQuery} from './api';
 import CalendarItem, {Day} from './Model/CalendarItem';
 
 const ScheduleContainer: React.FC = () => {
   const [chosenDate, chooseDate] = useState(moment().startOf('day').toDate());
   const [days, setDays] = useState<Day[]>();
-  const [refetchingSchedule, setRefetchingSchedule] = useState<boolean>(false);
 
   const {
     data: initialScheduleItems,
     isFetching: isFetchingInitialData,
     refetch,
-  } = useGetMyScheduleQuery(
-    {
-      start: moment(chosenDate).weekday(0).toDate(),
-      days: 7,
-    },
-    {skip: days !== undefined && days.length > 0 && !refetchingSchedule},
-  );
-
-  const [getScheduleForDay] = useLazyGetMyScheduleQuery();
+  } = useGetMyScheduleQuery({
+    start: moment(chosenDate).weekday(0).toDate(),
+    days: 7,
+  });
 
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    setRefetchingSchedule(true);
 
     try {
       await refetch();
     } finally {
       setRefreshing(false);
-      setRefetchingSchedule(false);
     }
   }, []);
 
@@ -63,10 +55,19 @@ const ScheduleContainer: React.FC = () => {
 
   useEffect(() => {
     if (initialScheduleItems) {
-      setDays(getInitialSchedule(initialScheduleItems));
-      setRefetchingSchedule(false);
+      const initialSchedule = getInitialSchedule(initialScheduleItems);
+      setDays(initialSchedule);
+
+      const daysDates = initialSchedule.map(day =>
+        moment(day.date).format('YYYY-MM-DD'),
+      );
+
+      scheduleCarousel.current?.snapToItem(
+        daysDates.findIndex(d => d === moment(chosenDate).format('YYYY-MM-DD')),
+        false,
+      );
     }
-  }, [initialScheduleItems]);
+  }, [chosenDate, initialScheduleItems, scheduleCarousel]);
 
   const onSnapToDay = async (index: number) => {
     if (days === undefined) {
@@ -86,7 +87,6 @@ const ScheduleContainer: React.FC = () => {
         true,
       );
     } else {
-      setRefetchingSchedule(true);
       chooseDate(date);
     }
   };

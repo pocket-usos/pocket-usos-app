@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Button, Text} from 'react-native-paper';
 import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
@@ -171,8 +171,8 @@ const ScheduleView: React.FC<Props> = ({
           sliderWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
           itemWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
           firstItem={days.findIndex(
-            day =>
-              moment(day.date).format('YYYY-MM-DD') ===
+            d =>
+              moment(d.date).format('YYYY-MM-DD') ===
               moment(chosenDate).format('YYYY-MM-DD'),
           )}
           onSnapToItem={onSnapToDay}
