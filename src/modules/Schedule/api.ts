@@ -41,4 +41,8 @@ export const scheduleApi = pocketUsosApi.injectEndpoints({
 });
 
 export default scheduleApi;
-export const {useGetMyScheduleQuery, useGetLecturerScheduleQuery} = scheduleApi;
+export const {
+  useGetMyScheduleQuery,
+  useLazyGetMyScheduleQuery,
+  useGetLecturerScheduleQuery,
+} = scheduleApi;

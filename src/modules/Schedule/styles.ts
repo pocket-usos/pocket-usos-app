@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import theme, {SafeAreaPadding, SafeAreaTopPadding} from '@styles/theme';
 
 const styles = StyleSheet.create({
@@ -55,8 +55,7 @@ const styles = StyleSheet.create({
     paddingBottom: 36,
   },
   timetableView: {
-    paddingHorizontal: SafeAreaPadding,
-    marginTop: 16,
+    marginHorizontal: SafeAreaPadding,
   },
   timetableLines: {
     borderColor: theme.colors.neutral['300'],
@@ -127,11 +126,9 @@ const styles = StyleSheet.create({
     marginTop: -144,
   },
   noResultsContainer: {
-    paddingHorizontal: SafeAreaPadding,
-    height: '100%',
+    height: Dimensions.get('screen').height - 300,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 144,
   },
   noResultsText: {
     fontSize: 18,

@@ -107,6 +107,7 @@ const SingleDatePicker: React.FC<Props> = ({chosenDate, onPickDate}) => {
         itemWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
         firstItem={1}
         onSnapToItem={onSnapToWeek}
+        lockScrollWhileSnapping
         data={weeks}
         renderItem={({item}) => (
           <View style={styles.datePickerWeek}>

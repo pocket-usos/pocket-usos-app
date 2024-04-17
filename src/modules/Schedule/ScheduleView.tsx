@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ActivityIndicator, Button, Text} from 'react-native-paper';
 import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
@@ -20,27 +20,32 @@ import 'moment/locale/pl';
 import SingleDatePicker from '@modules/Schedule/SingleDatePicker/SingleDatePicker.tsx';
 import {configureCalendarLocale} from '../../../translations/calendarLocaleConfig.ts';
 import CalendarModal from '@modules/Schedule/CalendarModal/CalendarModal.tsx';
-import CalendarItem from '@modules/Schedule/Model/CalendarItem.ts';
+import CalendarItem, {Day} from '@modules/Schedule/Model/CalendarItem.ts';
 import Timetable from 'react-native-calendar-timetable';
 import {useNavigation} from '@react-navigation/native';
 import tinycolor from 'tinycolor2';
+import Carousel from 'react-native-snap-carousel';
 
 interface Props {
   chosenDate: Date;
   onChooseDate: (date: Date) => void;
-  schedule?: CalendarItem[];
+  days?: Day[];
   isFetching: boolean;
   isRefreshing: boolean;
   onRefresh: () => void;
+  onSnapToDay: (index: number) => void;
+  scheduleCarousel: React.MutableRefObject<any>;
 }
 
 const ScheduleView: React.FC<Props> = ({
   chosenDate,
   onChooseDate,
-  schedule,
+  days,
   isFetching,
   isRefreshing,
   onRefresh,
+  onSnapToDay,
+  scheduleCarousel,
 }) => {
   const theme = useAppTheme();
   const {t, i18n} = useTranslation();
@@ -158,46 +163,77 @@ const ScheduleView: React.FC<Props> = ({
           onPickDate={date => onChooseDate(date)}
         />
       </View>
-      {schedule && (schedule?.length ?? 0) > 0 && !isFetching ? (
-        <ScrollView
-          style={styles.timetableView}
-          horizontal={false}
-          refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-          }>
-          <Timetable
-            fromHour={getScheduleMinHour(schedule)}
-            toHour={21}
-            hideNowLine={!isToday() || nowIsLowerThanScheduleMinHour(schedule)}
-            scrollViewProps={{horizontal: false}}
-            width={Dimensions.get('screen').width - SafeAreaPadding * 2}
-            style={{
-              container: styles.timetableContainer,
-              lines: styles.timetableLines,
-              time: styles.timetableTimeText,
-              nowLine: {
-                dot: styles.timetableNowDot,
-                line: styles.timetableNowLine,
-              },
-            }}
-            items={schedule.map((item, index) => {
-              return {
-                startDate: item.start,
-                endDate: item.end,
-                backgroundColor: getItemBackgroudColor(index),
-                onPress: () =>
-                  goToCourseScreen(
-                    item.courseId,
-                    item.courseUnitId,
-                    getItemBackgroudColor(index),
-                  ),
-                ...item,
-              };
-            })}
-            renderItem={props => <TimetableItem {...props} />}
-            date={chosenDate}
-          />
-        </ScrollView>
+      {days && (days?.length ?? 0) > 0 && !isFetching ? (
+        <Carousel
+          ref={scheduleCarousel}
+          useScrollView
+          loop={false}
+          sliderWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
+          itemWidth={Dimensions.get('screen').width - SafeAreaPadding * 2}
+          firstItem={days.findIndex(
+            d =>
+              moment(d.date).format('YYYY-MM-DD') ===
+              moment(chosenDate).format('YYYY-MM-DD'),
+          )}
+          onSnapToItem={onSnapToDay}
+          lockScrollWhileSnapping
+          data={days}
+          containerCustomStyle={styles.timetableView}
+          renderItem={({item}) => (
+            <ScrollView
+              horizontal={false}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={onRefresh}
+                />
+              }>
+              {item.schedule.length > 0 ? (
+                <Timetable
+                  fromHour={getScheduleMinHour(item.schedule)}
+                  toHour={21}
+                  hideNowLine={
+                    !isToday() || nowIsLowerThanScheduleMinHour(item.schedule)
+                  }
+                  scrollViewProps={{horizontal: false}}
+                  width={Dimensions.get('screen').width - SafeAreaPadding * 2}
+                  style={{
+                    container: styles.timetableContainer,
+                    lines: styles.timetableLines,
+                    time: styles.timetableTimeText,
+                    nowLine: {
+                      dot: styles.timetableNowDot,
+                      line: styles.timetableNowLine,
+                    },
+                  }}
+                  items={item.schedule.map((item, index) => {
+                    return {
+                      startDate: item.start,
+                      endDate: item.end,
+                      backgroundColor: getItemBackgroudColor(index),
+                      onPress: () =>
+                        goToCourseScreen(
+                          item.courseId,
+                          item.courseUnitId,
+                          getItemBackgroudColor(index),
+                        ),
+                      ...item,
+                    };
+                  })}
+                  renderItem={props => <TimetableItem {...props} />}
+                  date={item.date}
+                />
+              ) : (
+                <View style={styles.noResultsContainer}>
+                  <Text style={styles.noResultsText}>
+                    {t("You don't have any classes on this day")}
+                  </Text>
+                </View>
+              )}
+            </ScrollView>
+          )}
+        />
       ) : (
         <View>
           {isFetching ? (
@@ -208,13 +244,7 @@ const ScheduleView: React.FC<Props> = ({
                 style={styles.loaderAnimation}
               />
             </View>
-          ) : (
-            <View style={styles.noResultsContainer}>
-              <Text style={styles.noResultsText}>
-                {t("You don't have any classes on this day")}
-              </Text>
-            </View>
-          )}
+          ) : null}
         </View>
       )}
     </View>
