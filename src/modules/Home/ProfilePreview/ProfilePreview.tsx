@@ -117,7 +117,7 @@ const ProfilePreview: React.FC<Props> = ({
             style={styles.signOutButton}
             contentStyle={styles.signOutButtonContent}
             labelStyle={styles.signOutButtonLabel}
-            rippleColor={theme.colors.additional.red + '0A'}
+            rippleColor={theme.colors.semantic.error + '0A'}
             onPress={onSignOutClick}>
             {t('Sign Out')}
           </Button>
@@ -150,16 +150,16 @@ const ProfilePreview: React.FC<Props> = ({
             </Button>
             <Button
               mode="outlined"
-              rippleColor={theme.colors.additional.red + '0A'}
+              rippleColor={theme.colors.semantic.error + '0A'}
               onPress={onSignOut}
               style={[
                 styles.dialogActionStyle,
-                {borderColor: theme.colors.additional.red},
+                {borderColor: theme.colors.semantic.error},
               ]}
               contentStyle={styles.dialogActionContentStyle}
               labelStyle={[
                 styles.dialogActionLabelStyle,
-                {color: theme.colors.additional.red},
+                {color: theme.colors.semantic.error},
               ]}>
               {t('Yes')}
             </Button>

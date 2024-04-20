@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   weekendText: {
-    color: theme.colors.additional.red,
+    color: theme.colors.semantic.error,
   },
 });
 

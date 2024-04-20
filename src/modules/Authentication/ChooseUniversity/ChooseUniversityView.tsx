@@ -5,7 +5,6 @@ import ScreenContainer from '@components/ScreenContainer/ScreenContainer';
 import SearchInput from '@components/SearchInput/SearchInput';
 import {useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
-import UniversityList from '@modules/Authentication/ChooseUniversity/UniversityList/UniversityList.tsx';
 import UniversityMissing from '@modules/Authentication/ChooseUniversity/UniversityMissing/UniversityMissing.tsx';
 import styles from './styles';
 import University from '../Model/University';

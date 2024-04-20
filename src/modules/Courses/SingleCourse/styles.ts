@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   courseProgressBarFilled: {
-    backgroundColor: theme.colors.additional.green,
+    backgroundColor: theme.colors.semantic.success,
   },
   courseDetails: {
     paddingHorizontal: SafeAreaPadding,

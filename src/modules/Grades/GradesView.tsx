@@ -72,23 +72,23 @@ const GradesView: React.FC<Props> = ({
   }, [terms, selectedTerm, termsScrollView]);
 
   const getGradeBackgroudColor = (grade?: number): string => {
-    if (grade === undefined || grade === 0) {
+    if (grade === undefined || grade === 0 || grade === null) {
       return theme.colors.neutral['500'];
     }
 
     if (grade >= 4) {
-      return theme.colors.additional.green;
+      return theme.colors.semantic.success;
     }
 
     if (grade >= 3) {
-      return theme.colors.additional.yellow;
+      return theme.colors.semantic.warning;
     }
 
     if (grade >= 2) {
-      return theme.colors.additional.red;
+      return theme.colors.semantic.error;
     }
 
-    return theme.colors.additional.red;
+    return theme.colors.semantic.error;
   };
 
   return (
