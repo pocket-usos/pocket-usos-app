@@ -111,7 +111,7 @@ const ScheduleView: React.FC<Props> = ({
   const getItemBackgroudColor = (index: number) => {
     const colors = [
       theme.colors.secondary,
-      theme.colors.additional.red,
+      theme.colors.semantic.error,
       theme.colors.primary,
     ];
 
@@ -196,6 +196,7 @@ const ScheduleView: React.FC<Props> = ({
                   hideNowLine={
                     !isToday() || nowIsLowerThanScheduleMinHour(item.schedule)
                   }
+                  hourHeight={72}
                   scrollViewProps={{horizontal: false}}
                   width={Dimensions.get('screen').width - SafeAreaPadding * 2}
                   style={{
@@ -281,6 +282,20 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
         {title.slice(0, 50).trim()}
         {title.length > 50 ? '...' : ''}
       </Text>
+      <View style={styles.timetableItemAttribute}>
+        <View style={styles.timetableItemIcon}>
+          <FontAwesomeIcon
+            name="clock"
+            solid
+            size={14}
+            color={theme.colors.neutral.white}
+          />
+        </View>
+        <Text style={styles.timetableItemText}>
+          {moment(item.startDate).format('HH:mm')} -{' '}
+          {moment(item.endDate).format('HH:mm')}
+        </Text>
+      </View>
       <View style={styles.timetableItemAttribute}>
         <View style={styles.timetableItemIcon}>
           <FontAwesomeIcon

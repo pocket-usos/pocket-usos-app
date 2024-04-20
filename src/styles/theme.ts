@@ -4,11 +4,6 @@ import {Platform} from 'react-native';
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
-      additional: {
-        red: string;
-        green: string;
-        yellow: string;
-      };
       neutral: {
         black: string;
         white: string;
@@ -61,11 +56,6 @@ const theme = {
     primary: '#AD94F4',
     secondary: '#FFA05C',
     tertiary: '#FFD02C',
-    additional: {
-      red: '#FF7878',
-      green: '#7EDA6E',
-      yellow: '#F3BE58',
-    },
     neutral: {
       black: '#383838',
       300: '#EEEEEE',
@@ -76,8 +66,8 @@ const theme = {
     },
     semantic: {
       success: '#7EDA6E',
-      warning: '#D1843D',
-      error: '#DD4E4E',
+      warning: '#FFB866',
+      error: '#FF7878',
       info: '#4D91D0',
     },
   },

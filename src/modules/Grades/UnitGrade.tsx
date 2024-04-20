@@ -52,19 +52,19 @@ const UnitGrade: React.FC<Props> = ({
       const floatGrade = parseFloat(grade);
 
       if (floatGrade >= 4 || grade.toUpperCase() === 'ZAL') {
-        return theme.colors.additional.green;
+        return theme.colors.semantic.success;
       }
 
       if (floatGrade >= 3) {
-        return theme.colors.additional.yellow;
+        return theme.colors.semantic.warning;
       }
 
       if (floatGrade >= 2) {
-        return theme.colors.additional.red;
+        return theme.colors.semantic.error;
       }
     }
 
-    return theme.colors.additional.red;
+    return theme.colors.semantic.error;
   };
 
   const gradesDistributionData = gradesDistribution?.map(d => {

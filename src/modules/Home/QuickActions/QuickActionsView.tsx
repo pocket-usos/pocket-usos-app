@@ -28,7 +28,7 @@ const QuickActionsView: React.FC = () => {
       <QuickAction
         icon={require('../../../../assets/images/courses-icon-white.png')}
         title={t('Courses')}
-        color={theme.colors.additional.red}
+        color={theme.colors.semantic.error}
         onPress={() => navigation.navigate('Courses')}
       />
     </View>

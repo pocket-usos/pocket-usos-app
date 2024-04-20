@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   notificationsBadge: {
-    backgroundColor: theme.colors.additional.red,
+    backgroundColor: theme.colors.semantic.error,
     position: 'absolute',
     right: 0,
     top: 0,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   signOutButton: {
     borderRadius: 20,
-    borderColor: theme.colors.additional.red,
+    borderColor: theme.colors.semantic.error,
     backgroundColor: 'transparent',
     marginTop: 16,
   },
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   signOutButtonLabel: {
-    color: theme.colors.additional.red,
+    color: theme.colors.semantic.error,
     fontSize: 14,
   },
   signOutDialog: {
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   dialogActionLabelStyle: {},
   upcomingClasses: {
     marginTop: 24,
+    marginBottom: 6,
   },
   upcomingClassesTitle: {
     color: theme.colors.neutral.black,

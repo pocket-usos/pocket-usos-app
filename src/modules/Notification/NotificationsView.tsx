@@ -42,7 +42,7 @@ const NotificationsView: React.FC<Props> = ({
   const getNotificationColor = (courseIndex: number) => {
     const colors = [
       theme.colors.secondary,
-      theme.colors.additional.red,
+      theme.colors.semantic.error,
       theme.colors.primary,
     ];
 

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: theme.colors.neutral.black,
     paddingHorizontal: SafeAreaPadding,
-    marginBottom: 36,
+    marginBottom: SafeAreaPadding,
   },
   termsContainer: {
     paddingHorizontal: SafeAreaPadding,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   courseProgressBarFilled: {
-    backgroundColor: theme.colors.additional.green,
+    backgroundColor: theme.colors.semantic.success,
   },
   courseAttribute: {
     flexDirection: 'row',
