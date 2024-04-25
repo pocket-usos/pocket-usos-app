@@ -31,8 +31,10 @@ const styles = StyleSheet.create({
     color: theme.colors.neutral.white,
   },
   coursesContainer: {
-    paddingHorizontal: SafeAreaPadding,
     marginTop: 24,
+  },
+  singleCourseContainer: {
+    paddingHorizontal: SafeAreaPadding,
   },
   course: {
     padding: 24,
@@ -112,6 +114,25 @@ const styles = StyleSheet.create({
     paddingVertical: (Dimensions.get('screen').height - 300) / 2,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  courseGroupPagination: {
+    position: 'absolute',
+    bottom: -4,
+    left: 0,
+    width: '100%',
+  },
+  courseGroupPaginationDotContainer: {
+    width: 0,
+  },
+  courseGroupPaginationDot: {
+    backgroundColor: theme.colors.neutral.white,
+    width: 6,
+    height: 6,
+  },
+  courseGroupPaginationInactiveDot: {
+    backgroundColor: theme.colors.neutral.white,
+    width: 6,
+    height: 6,
   },
 });
 
