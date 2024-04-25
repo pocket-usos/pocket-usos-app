@@ -296,18 +296,20 @@ const TimetableItem: React.FC<ItemProps> = ({style, item}) => {
           {moment(item.endDate).format('HH:mm')}
         </Text>
       </View>
-      <View style={styles.timetableItemAttribute}>
-        <View style={styles.timetableItemIcon}>
-          <FontAwesomeIcon
-            name="location-dot"
-            size={14}
-            color={theme.colors.neutral.white}
-          />
+      {item.room ? (
+        <View style={styles.timetableItemAttribute}>
+          <View style={styles.timetableItemIcon}>
+            <FontAwesomeIcon
+              name="location-dot"
+              size={14}
+              color={theme.colors.neutral.white}
+            />
+          </View>
+          <Text style={styles.timetableItemText}>{`${t('Room')} ${
+            item.room.name
+          }`}</Text>
         </View>
-        <Text style={styles.timetableItemText}>{`${t('Room')} ${
-          item.room.name
-        }`}</Text>
-      </View>
+      ) : null}
       <View style={styles.timetableItemAttribute}>
         <View style={styles.timetableItemIcon}>
           <IonIcon name="person" size={14} color={theme.colors.neutral.white} />
