@@ -50,7 +50,7 @@ const UpcomingClassesView: React.FC<Props> = ({schedule}) => {
               start={item.start}
               end={item.end}
               classType={item.classType.id}
-              room={item.room.name}
+              room={item.room?.name}
               lecturerName={
                 item.lecturers[0].firstName + ' ' + item.lecturers[0].lastName
               }

@@ -15,7 +15,7 @@ interface Props {
   start: Date;
   end: Date;
   classType: string;
-  room: string;
+  room?: string;
   lecturerName: string;
   onPress: () => void;
 }
@@ -46,18 +46,20 @@ const UpcomingClass: React.FC<Props> = props => {
         </View>
         <Text style={styles.upcomingClassAttributeText}>{time}</Text>
       </View>
-      <View style={styles.upcomingClassAttribute}>
-        <View style={styles.upcomingClassAttributeIcon}>
-          <FontAwesomeIcon
-            name="location-dot"
-            size={16}
-            color={theme.colors.neutral.white}
-          />
+      {props.room ? (
+        <View style={styles.upcomingClassAttribute}>
+          <View style={styles.upcomingClassAttributeIcon}>
+            <FontAwesomeIcon
+              name="location-dot"
+              size={16}
+              color={theme.colors.neutral.white}
+            />
+          </View>
+          <Text style={styles.upcomingClassAttributeText}>{`${t('Room')} ${
+            props.room
+          }`}</Text>
         </View>
-        <Text style={styles.upcomingClassAttributeText}>{`${t('Room')} ${
-          props.room
-        }`}</Text>
-      </View>
+      ) : null}
       <View style={styles.upcomingClassAttribute}>
         <View style={styles.upcomingClassAttributeIcon}>
           <IonIcon name="person" size={16} color={theme.colors.neutral.white} />

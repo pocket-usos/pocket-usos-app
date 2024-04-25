@@ -7,7 +7,7 @@ interface CalendarItem {
   classType: ClassType;
   lecturers: Lecturer[];
   groupNumber: number;
-  room: Room;
+  room?: Room;
 }
 
 export interface Day {
