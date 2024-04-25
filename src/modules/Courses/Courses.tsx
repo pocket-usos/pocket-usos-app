@@ -6,6 +6,7 @@ import Term from '@modules/Grades/Model/Term';
 import moment from 'moment';
 import {useGetCoursesQuery} from '@modules/Courses/api.ts';
 import {useGetUsersPhotosQuery} from '@modules/Users/api.ts';
+import Course from './Model/Course';
 
 const CoursesContainer: React.FC = () => {
   const {data: terms, isFetching: isFetchingTerms} = useGetTermsQuery();
@@ -76,7 +77,24 @@ const CoursesContainer: React.FC = () => {
     } finally {
       setRefreshing(false);
     }
-  }, []);
+  }, [refetchCourses, refetchCoursesWithSchedule, refetchLecturersPhotos]);
+
+  const groupCourses = (coursesToGroup?: Course[]): Course[][] => {
+    if (!coursesToGroup) {
+      return [];
+    }
+
+    const groupedCourses: {[id: string]: Course[]} = {};
+
+    for (const course of coursesToGroup) {
+      if (!groupedCourses[course.id]) {
+        groupedCourses[course.id] = [];
+      }
+      groupedCourses[course.id].push(course);
+    }
+
+    return Object.values(groupedCourses);
+  };
 
   return (
     <LoadableScreenView isLoading={isFetchingTerms}>
@@ -86,7 +104,7 @@ const CoursesContainer: React.FC = () => {
           selectedTerm={selectedTerm}
           onTermSelect={(term: Term) => setSelectedTerm(term)}
           isFetchingCourses={isFetchingCourses}
-          courses={courses}
+          courses={groupCourses(courses)}
           coursesWithSchedule={coursesWithSchedule}
           isFetchingSchedules={isFetchingSchedules}
           lecturersPhotos={lecturersPhotos}

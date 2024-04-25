@@ -1,20 +1,21 @@
-import React, {useEffect, useRef} from 'react';
-import {ActivityIndicator, Chip, ProgressBar, Text} from 'react-native-paper';
-import {useAppTheme} from '@styles/theme';
+import React, {useEffect, useRef, useState} from 'react';
+import {ActivityIndicator, Chip, Text} from 'react-native-paper';
+import {SafeAreaPadding, useAppTheme} from '@styles/theme';
 import {useTranslation} from 'react-i18next';
 import Term from '@modules/Grades/Model/Term';
-import {Image, Pressable, RefreshControl, ScrollView, View} from 'react-native';
-import moment from 'moment';
+import {Dimensions, RefreshControl, ScrollView, View} from 'react-native';
 import styles from './styles';
 import Course from '@modules/Courses/Model/Course.ts';
 import {useNavigation} from '@react-navigation/native';
+import CourseItem from './CourseItem';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 
 interface Props {
   terms: Term[];
   selectedTerm?: Term;
   onTermSelect: (term: Term) => void;
   isFetchingCourses: boolean;
-  courses?: Course[];
+  courses?: Course[][];
   coursesWithSchedule?: Course[];
   isFetchingSchedules: boolean;
   lecturersPhotos?: {[id: string]: string};
@@ -56,54 +57,6 @@ const CoursesView: React.FC<Props> = ({
     }
   };
 
-  const getCourseProgressValue = (course: Course) => {
-    const schedule = coursesWithSchedule?.find(
-      c => c.unitId === course.unitId && c.groupNumber === course.groupNumber,
-    )?.schedule;
-
-    if (schedule) {
-      const count = schedule.classesCount;
-      const completed = schedule.classesCompleted;
-      const courseTerm = terms.find(term => term.id === course.term);
-
-      if (count === 0) {
-        return moment(courseTerm?.endDate).isBefore(moment()) ? 1 : 0;
-      }
-
-      return completed / count;
-    }
-
-    return 0;
-  };
-
-  const getCourseProgressResultText = (course: Course) => {
-    const courseProgress = getCourseProgressValue(course);
-
-    if (coursesWithSchedule === undefined || isFetchingSchedules) {
-      return t('Loading');
-    } else if (courseProgress === 1) {
-      return t('Completed');
-    } else if (courseProgress === 0) {
-      return t('Not started');
-    } else {
-      const schedule = coursesWithSchedule?.find(
-        c => c.unitId === course.unitId && c.groupNumber === course.groupNumber,
-      )?.schedule;
-
-      return `${schedule.classesCompleted} / ${schedule.classesCount}`;
-    }
-  };
-
-  const getCourseBackgroudColor = (courseIndex: number) => {
-    const colors = [
-      theme.colors.secondary,
-      theme.colors.semantic.error,
-      theme.colors.primary,
-    ];
-
-    return colors[courseIndex % colors.length];
-  };
-
   const termsScrollView = useRef<ScrollView>();
   const scrollViewRef = useRef<ScrollView>();
   const scrollToTop = () => {
@@ -128,6 +81,17 @@ const CoursesView: React.FC<Props> = ({
       });
     }
   }, [terms, selectedTerm, termsScrollView]);
+
+  const [activeSlides, setActiveSlides] = useState<{
+    [courseId: string]: number;
+  }>({});
+
+  const getActiveSlide = (courseId: string) => activeSlides[courseId] ?? 0;
+  const setActiveSlide = (courseId: string, activeSlide: number) => {
+    const newActiveSlides = {...activeSlides};
+    newActiveSlides[courseId] = activeSlide;
+    setActiveSlides(newActiveSlides);
+  };
 
   return (
     <View style={styles.container}>
@@ -172,72 +136,66 @@ const CoursesView: React.FC<Props> = ({
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }>
-          {courses?.map((course, index) => (
-            <Pressable
-              key={course.unitId}
-              onPress={() =>
-                goToCourseScreen(course, getCourseBackgroudColor(index))
-              }>
-              <View
-                style={[
-                  styles.course,
-                  {backgroundColor: getCourseBackgroudColor(index)},
-                ]}>
-                <Text variant="titleMedium" style={styles.courseTitle}>
-                  {course.name}
-                </Text>
-                <Text style={styles.groupNumber}>{`${t('Group')} #${
-                  course.groupNumber
-                }`}</Text>
-                <View style={styles.courseProgress}>
-                  <Text style={styles.courseProgressLabel}>
-                    {`${t('Course progress')} - ${getCourseProgressResultText(
-                      course,
-                    )}`}
-                  </Text>
-                  <ProgressBar
-                    indeterminate={isFetchingSchedules}
-                    progress={getCourseProgressValue(course)}
-                    style={styles.courseProgressBar}
-                    fillStyle={styles.courseProgressBarFilled}
+          {courses?.map((courseGroup, index) => (
+            <View key={index}>
+              {courseGroup.length === 1 ? (
+                <View style={styles.singleCourseContainer}>
+                  <CourseItem
+                    course={courseGroup[0]}
+                    goToCourseScreen={goToCourseScreen}
+                    index={index}
+                    terms={terms}
+                    coursesWithSchedule={coursesWithSchedule}
+                    isFetchingSchedules={isFetchingSchedules}
+                    lecturersPhotos={lecturersPhotos}
+                    areLecturersPhotosFetching={areLecturersPhotosFetching}
                   />
                 </View>
-                {course.lecturers.length > 0 ? (
-                  <View style={styles.courseAttribute}>
-                    <View style={styles.courseAttributeIcon}>
-                      {areLecturersPhotosFetching ||
-                      lecturersPhotos === undefined ? (
-                        <Image
-                          source={require('../../../assets/images/user-avatar-blank.png')}
-                          style={styles.lecturersPhoto}
-                        />
-                      ) : (
-                        <Image
-                          source={{
-                            uri: lecturersPhotos[course.lecturers[0].id],
-                          }}
-                          style={styles.lecturersPhoto}
-                        />
-                      )}
-                    </View>
-                    <Text style={styles.courseAttributeText}>
-                      {`${course.lecturers[0].firstName} ${course.lecturers[0].lastName}`}
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={{paddingVertical: 12}} />
-                )}
-                <View style={styles.classTypeContainer}>
-                  <Text style={styles.classTypeText}>
-                    {course.classType.id}
-                  </Text>
+              ) : (
+                <View>
+                  <Carousel
+                    loop={false}
+                    sliderWidth={Dimensions.get('screen').width}
+                    itemWidth={
+                      Dimensions.get('screen').width - SafeAreaPadding * 2
+                    }
+                    lockScrollWhileSnapping
+                    inactiveSlideScale={0.95}
+                    inactiveSlideOpacity={0.8}
+                    data={courseGroup}
+                    onSnapToItem={index =>
+                      setActiveSlide(courseGroup[0].id, index)
+                    }
+                    renderItem={({item}) => (
+                      <CourseItem
+                        course={item}
+                        goToCourseScreen={goToCourseScreen}
+                        index={index}
+                        terms={terms}
+                        coursesWithSchedule={coursesWithSchedule}
+                        isFetchingSchedules={isFetchingSchedules}
+                        lecturersPhotos={lecturersPhotos}
+                        areLecturersPhotosFetching={areLecturersPhotosFetching}
+                      />
+                    )}
+                  />
+                  <Pagination
+                    dotsLength={courseGroup.length}
+                    activeDotIndex={getActiveSlide(courseGroup[0].id)}
+                    containerStyle={styles.courseGroupPagination}
+                    dotContainerStyle={styles.courseGroupPaginationDotContainer}
+                    dotStyle={styles.courseGroupPaginationDot}
+                    inactiveDotStyle={styles.courseGroupPaginationInactiveDot}
+                    inactiveDotScale={1}
+                  />
                 </View>
-              </View>
-            </Pressable>
+              )}
+            </View>
           ))}
         </ScrollView>
       )}
     </View>
   );
 };
+
 export default CoursesView;
